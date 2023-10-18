@@ -22,4 +22,11 @@
 	uni-toast .uni-toast__content {
 	    font-size: 28rpx;
 	}
+	.image-arrow-right {
+	    float: right;
+	    margin-top: 16px;
+	    background: url(/static/icon-ps.png) -55px 0;
+	    width: 6px;
+	    height: 11px;
+	}
 </style>
