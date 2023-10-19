@@ -32,11 +32,6 @@
 			}
 		},
 		methods: {
-			enterPage(url) {
-				uni.navigateTo({
-					url: '/pages/' + url
-				});
-			},
 			forget() {
 				if (this.mobile === '') {
 					uni.showToast({

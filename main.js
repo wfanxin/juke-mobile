@@ -3,6 +3,7 @@ import App from './App'
 
 import server from './utils/server' // 导入服务类
 Vue.prototype.$server = server // 注册服务类
+server.setDeviceId() // 生成设备id
 
 Vue.config.productionTip = false
 

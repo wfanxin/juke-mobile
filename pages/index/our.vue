@@ -16,14 +16,12 @@
 			}
 		},
 		onLoad() {
-
+			this.$server.chekLogin((res) => {
+				console.log('lai')
+			})
 		},
 		methods: {
-			enterPage(url) {
-				uni.navigateTo({
-					url: '/pages/' + url
-				});
-			}
+
 		}
 	}
 </script>

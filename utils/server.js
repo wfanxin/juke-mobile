@@ -117,8 +117,49 @@ function uploadFile(filePath, name = 'file') {
 	})
 }
 
+// 设置设备id
+function setDeviceId() {
+	let deviceId = uni.getStorageSync('mDeviceId')
+	if (deviceId) {
+		return deviceId
+	}
+
+	let len = 32
+	let chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678' /** **默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+	let maxPos = chars.length
+	let pwd = ''
+	for (let i = 0; i < len; i++) {
+		pwd += chars.charAt(Math.floor(Math.random() * maxPos))
+	}
+
+	let timestamp = new Date().getTime()
+	let randomStr = String(Math.random() * timestamp).replace(/\./g, '')
+	deviceId = pwd + randomStr
+
+	uni.setStorageSync('mDeviceId', deviceId)
+	return deviceId
+}
+
+// 登录检查
+function chekLogin(callback) {
+	let userData = uni.getStorageSync('userData')
+	if(!userData){
+		reLaunch('user/login')
+	}else{
+		callback && callback(userData)
+	}
+}
+
+// 关闭所有页面，打开到应用内的某个页面
 function reLaunch(url) {
 	uni.reLaunch({
+		url: '/pages/' + url
+	});
+}
+
+// 跳转到应用内的某个页面，可使用uni.navigateBack返回
+function enterPage(url) {
+	uni.navigateTo({
 		url: '/pages/' + url
 	});
 }
@@ -128,5 +169,8 @@ module.exports = {
 	requestPost: requestPost,
 	requestGet: requestGet,
 	uploadFile: uploadFile,
-	reLaunch: reLaunch
+	setDeviceId: setDeviceId,
+	chekLogin: chekLogin,
+	reLaunch: reLaunch,
+	enterPage: enterPage
 }

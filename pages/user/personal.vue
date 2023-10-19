@@ -33,11 +33,6 @@
 			}
 		},
 		methods: {
-			enterPage(url) {
-				uni.navigateTo({
-					url: '/pages/' + url
-				});
-			},
 			logout() {
 				
 			}

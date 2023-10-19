@@ -7,7 +7,7 @@
 					<image src="/static/logo.png" mode=""></image>
 					<text>158666666(普通会员)</text>
 				</view>
-				<view class="shouyi" @click="enterPage('user/shouyi')">
+				<view class="shouyi" @click="$server.enterPage('user/shouyi')">
 					<view class="text">累计收益</view>
 					<view class="money">0</view>
 				</view>
@@ -65,14 +65,12 @@
 			}
 		},
 		onLoad() {
-
+			this.$server.chekLogin((res) => {
+				console.log('lai')
+			})
 		},
 		methods: {
-			enterPage(url) {
-				uni.navigateTo({
-					url: '/pages/' + url
-				});
-			}
+
 		}
 	}
 </script>

@@ -6,7 +6,7 @@
 		</view>
 		<view>{{ url }}</view>
 		<button @click="$server.reLaunch('user/login')">登录</button>
-		<button @click="enterPage('user/register')">注册</button>
+		<button @click="$server.enterPage('user/register')">注册</button>
 		<button @click="login">接口请求</button>
 	</view>
 </template>
@@ -20,7 +20,9 @@
 			}
 		},
 		onLoad() {
-
+			this.$server.chekLogin((res) => {
+				console.log('lai')
+			})
 		},
 		methods: {
 			login() {
@@ -30,11 +32,6 @@
 				}).then((res) => {
 					console.log(res)
 				})
-			},
-			enterPage(url) {
-				uni.navigateTo({
-					url: '/pages/' + url
-				});
 			}
 		}
 	}

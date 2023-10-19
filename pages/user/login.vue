@@ -19,9 +19,9 @@
 					<input type="text" v-model="captcha_code" placeholder="请输入验证码">
 					<image src="../../static/logo.png" class="code-img"></image>
 				</view>
-				<view class="forget"><text @click="enterPage('user/forget')">忘记密码？</text></view>
+				<view class="forget"><text @click="$server.enterPage('user/forget')">忘记密码？</text></view>
 				<button class="login-btn" @click="login()">登录</button>
-				<view class="register" @click="enterPage('user/register')">立即注册</view>
+				<view class="register" @click="$server.enterPage('user/register')">立即注册</view>
 			</view>
 		</view>
 	</view>
@@ -37,11 +37,6 @@
 			}
 		},
 		methods: {
-			enterPage(url) {
-				uni.navigateTo({
-					url: '/pages/' + url
-				});
-			},
 			login() {
 				if (this.mobile === '') {
 					uni.showToast({

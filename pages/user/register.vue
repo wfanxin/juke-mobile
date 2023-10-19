@@ -37,7 +37,7 @@
 					<input type="text" v-model="invite_code" placeholder="邀请码（必填）">
 				</view>
 				<button class="register-btn" @click="register()">免费注册</button>
-				<view class="register" @click="enterPage('user/login')">已有账号,立即登录！</view>
+				<view class="register" @click="$server.enterPage('user/login')">已有账号,立即登录！</view>
 			</view>
 		</view>
 	</view>
@@ -57,11 +57,6 @@
 			}
 		},
 		methods: {
-			enterPage(url) {
-				uni.navigateTo({
-					url: '/pages/' + url
-				});
-			},
 			register() {
 				if (this.mobile === '') {
 					uni.showToast({

@@ -1,12 +1,12 @@
 <template>
 	<view class="content">
 		<view class="user-info">
-			<image class="user-image" src="/static/logo.png" @click="enterPage('user/personal')"></image>
+			<image class="user-image" src="/static/logo.png" @click="$server.enterPage('user/personal')"></image>
 			<view class="user-content">
 				<view><text class="bold">【测试】</text>158666666</view>
 				<view>普通用户</view>
 			</view>
-			<view class="shouyi" @click="enterPage('user/shouyi')">
+			<view class="shouyi" @click="$server.enterPage('user/shouyi')">
 				<image src="/static/shouyi1.png" mode=""></image>
 				<view class="shouyi-text">累计收益</view>
 			</view>
@@ -14,18 +14,18 @@
 		<view class="user-panel-wrap">
 			<view class="user-panel">
 				<view class="panel">
-					<view class="user-item" @click="enterPage('user/payinfo')">
+					<view class="user-item" @click="$server.enterPage('user/payinfo')">
 						<text class="bank"></text>
 						<text class="item-value">收款方式</text>
 						<text class="item-value-right">已设置</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view>
-					<view class="user-item" @click="enterPage('user/friends')">
+					<view class="user-item" @click="$server.enterPage('user/friends')">
 						<text class="friend"></text>
 						<text class="item-value">我的密友</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view>
-					<view class="user-item" @click="enterPage('user/personal')">
+					<view class="user-item" @click="$server.enterPage('user/personal')">
 						<text class="lock"></text>
 						<text class="item-value">个人信息</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
@@ -46,14 +46,11 @@
 			}
 		},
 		onLoad() {
-
+			this.$server.chekLogin((res) => {
+				console.log('lai')
+			})
 		},
 		methods: {
-			enterPage(url) {
-				uni.navigateTo({
-					url: '/pages/' + url
-				});
-			},
 			logout() {
 				
 			}
