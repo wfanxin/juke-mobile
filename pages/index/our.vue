@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		收款方式
+		our
 	</view>
 </template>
 
@@ -8,8 +8,12 @@
 	export default {
 		data() {
 			return {
-
+				title: 'Hello',
+				url: this.$server.apiUrl
 			}
+		},
+		onLoad() {
+
 		},
 		methods: {
 			enterPage(url) {
@@ -23,7 +27,6 @@
 
 <style>
 	.content {
-		border-top: 2px solid #F2F6FC;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

@@ -76,7 +76,7 @@
 
 <style>
 	.content {
-		border-top: 1px solid #F2F6FC;
+		border-top: 2px solid #F2F6FC;
 		padding: 0 40rpx;
 		padding-top: 10rpx;
 	}

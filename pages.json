@@ -3,7 +3,29 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "测试"
+				"navigationStyle": "custom",
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/index/our",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/index/up",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/index/my",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": ""
 			}
 		},
 		{
@@ -41,6 +63,14 @@
 		    }
 		},
 		{
+		    "path" : "pages/user/shouyi",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "我的收益",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
 		    "path" : "pages/user/payinfo",
 		    "style" :                                                                                    
 		    {
@@ -62,5 +92,32 @@
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+	    "color": "#333333",
+	    "selectedColor": "#50dab5",
+	    "borderStyle": "black",
+	    "backgroundColor": "#ffffff",
+	    "list": [{
+	        "pagePath": "pages/index/index",
+	        "iconPath": "static/home.png",
+	        "selectedIconPath": "static/home_active.png",
+	        "text": "首页"
+	    }, {
+	        "pagePath": "pages/index/our",
+	        "iconPath": "static/our.png",
+	        "selectedIconPath": "static/our_active.png",
+	        "text": "同修"
+	    }, {
+	        "pagePath": "pages/index/up",
+	        "iconPath": "static/up.png",
+	        "selectedIconPath": "static/up_active.png",
+	        "text": "升级"
+	    }, {
+	        "pagePath": "pages/index/my",
+	        "iconPath": "static/my.png",
+	        "selectedIconPath": "static/my_active.png",
+	        "text": "我的"
+	    }]
 	}
 }

@@ -1,8 +1,8 @@
 <template>
 	<view class="content">
-		<view class="no-data">
-			<image class="no-image" src="../../static/no_data.png" mode=""></image>
-			<view class="no-text">暂无数据</view>
+		<view class="shouyi-info">
+			<view class="money">0</view>
+			<view class="text">累计收益</view>
 		</view>
 	</view>
 </template>
@@ -32,17 +32,21 @@
 		align-items: center;
 		justify-content: center;
 	}
-	.no-data {
-		margin-top: 30rpx;
+	.shouyi-info {
+		width: 100%;
+		height: 260rpx;
+		background-color: #50dab5;
 	}
-	.no-image {
-		width: 220rpx;
-		height: 220rpx;
-	}
-	.no-text {
-		color: #9b9b9b;
-		font-size: 28rpx;
-		margin-top: 60rpx;
+	.shouyi-info .money {
+		font-size: 85rpx;
+		color: #ffffff;
 		text-align: center;
+		margin-top: 40rpx;
+	}
+	.shouyi-info .text {
+		font-size: 28rpx;
+		color: #ffffff;
+		text-align: center;
+		margin-top: 10rpx;
 	}
 </style>
