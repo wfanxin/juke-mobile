@@ -17,7 +17,7 @@
 				<view class="login-item">
 					<text class="captcha_code"></text>
 					<input type="text" v-model="captcha_code" placeholder="请输入验证码">
-					<image src="../../static/logo.png" class="code-img"></image>
+					<image :src="captcha_code_src" class="code-img" @click="refreshCode()"></image>
 				</view>
 				<view class="forget"><text @click="$server.enterPage('user/forget')">忘记密码？</text></view>
 				<button class="login-btn" @click="login()">登录</button>
@@ -33,10 +33,17 @@
 			return {
 				mobile: '',
 				password: '',
-				captcha_code: ''
+				captcha_code: '',
+				captcha_code_src: ''
 			}
 		},
+		onLoad() {
+			this.refreshCode()
+		},
 		methods: {
+			refreshCode() {
+			  this.captcha_code_src = this.$server.apiUrl + 'lv/api/captchas/' + Math.random() + '?mobile_device_id=' + this.$server.setDeviceId()
+			},
 			login() {
 				if (this.mobile === '') {
 					uni.showToast({
@@ -61,6 +68,22 @@
 					})
 					return false
 				}
+				
+				this.$server.requestPost('captchas/check', {
+					mobile_device_id: this.$server.setDeviceId(),
+					vcode: this.captcha_code
+				}).then((data) => {
+					this.$server.requestPost('user/login', {
+						mobile: this.mobile,
+						password: this.password
+					}).then((data) => {
+						console.log('成功')
+					}).catch(() => {
+						this.refreshCode()
+					})
+				}).catch(() => {
+					this.refreshCode()
+				})
 			}
 		}
 	}

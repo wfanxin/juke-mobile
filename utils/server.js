@@ -1,11 +1,11 @@
-let apiUrl = 'http://demo-api.com:81/' // 开发
+let apiUrl = 'http://juke-api.com/' // 开发
 
 // Post请求
 function requestPost(url, data = {}) {
 	return new Promise((resolve, reject) => {
 		uni.request({
 			header: {
-				'Content-Type': 'application/x-www-form-urlencoded' 
+				'Content-Type': 'application/x-www-form-urlencoded'
 			},
 			url: apiUrl + 'lv/api/' + url,
 			data: data,
@@ -16,17 +16,17 @@ function requestPost(url, data = {}) {
 		    		resolve(res)
 		    	}else{
 		    		uni.showToast({ // 失败
-		    		    title: res.data.msg,
-		    			icon: 'none',
+		    		    title: res.data.message,
+		    			image: '/static/show_error.png',
 		    		    duration: 2000
 		    		});
-		    		reject(res.data.msg)
+		    		reject(res.data.message)
 		    	}
 		    },
 		    fail() {
 		    	uni.showToast({
 		    		title: '网络问题',
-		    	    icon: 'none',
+		    	    image: '/static/show_error.png',
 		    	    duration: 2000
 		    	})
 		    	reject('网络问题')
@@ -46,17 +46,17 @@ function requestGet(url, data = {}) {
 					resolve(res)
 				}else{
 					uni.showToast({ // 失败
-					    title: res.data.msg,
-						icon: 'none',
+					    title: res.data.message,
+						image: '/static/show_error.png',
 					    duration: 2000
 					});
-					reject(res.data.msg)
+					reject(res.data.message)
 				}
 			},
 			fail() {
 				uni.showToast({
 					title: '网络问题',
-				    icon: 'none',
+				    image: '/static/show_error.png',
 				    duration: 2000
 				})
 				reject('网络问题')
