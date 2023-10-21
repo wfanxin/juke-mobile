@@ -64,6 +64,17 @@
 					})
 					return false
 				}
+				
+				this.$server.requestPost('user/forget', {
+					mobile: this.mobile,
+					mobile_code: this.mobile_code,
+					password: this.password,
+					cfpassword: this.cfpassword
+				}).then((data) => {
+					console.log('成功')
+				}).catch(() => {
+
+				})
 			}
 		}
 	}

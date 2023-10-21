@@ -17,7 +17,7 @@
 				<view class="register-item">
 					<text class="item-label">验证码</text>
 					<input type="text" v-model="captcha_code" placeholder="请输入验证码">
-					<image src="../../static/logo.png" class="code-img"></image>
+					<image :src="captcha_code_src" class="code-img" @click="refreshCode()"></image>
 				</view>
 				<view class="register-item">
 					<text class="item-label">动态码</text>
@@ -32,10 +32,10 @@
 					<text class="item-label">确认密码</text>
 					<input type="password" v-model="cfpassword" placeholder="请输入确认密码">
 				</view>
-				<view class="register-item">
+				<!-- <view class="register-item">
 					<text class="item-label">邀请码</text>
 					<input type="text" v-model="invite_code" placeholder="邀请码（必填）">
-				</view>
+				</view> -->
 				<button class="register-btn" @click="register()">免费注册</button>
 				<view class="register" @click="$server.enterPage('user/login')">已有账号,立即登录！</view>
 			</view>
@@ -53,10 +53,17 @@
 				mobile_code: '',
 				password: '',
 				cfpassword: '',
-				invite_code: ''
+				invite_code: '',
+				captcha_code_src: ''
 			}
 		},
+		onLoad() {
+			this.refreshCode()
+		},
 		methods: {
+			refreshCode() {
+			  this.captcha_code_src = this.$server.apiUrl + 'lv/api/captchas/' + Math.random() + '?mobile_device_id=' + this.$server.setDeviceId()
+			},
 			register() {
 				if (this.mobile === '') {
 					uni.showToast({
@@ -106,13 +113,33 @@
 					return false
 				}
 				
-				if (this.invite_code === '') {
-					uni.showToast({
-					   title: '邀请码不能为空',
-					   image: '/static/show_error.png'
+				// if (this.invite_code === '') {
+				// 	uni.showToast({
+				// 	   title: '邀请码不能为空',
+				// 	   image: '/static/show_error.png'
+				// 	})
+				// 	return false
+				// }
+				
+				this.$server.requestPost('captchas/check', {
+					mobile_device_id: this.$server.setDeviceId(),
+					vcode: this.captcha_code
+				}).then((data) => {
+					this.$server.requestPost('user/register', {
+						mobile: this.mobile,
+						name: this.name,
+						mobile_code: this.mobile_code,
+						password: this.password,
+						cfpassword: this.cfpassword,
+						invite_code: this.invite_code
+					}).then((data) => {
+						console.log('成功')
+					}).catch(() => {
+
 					})
-					return false
-				}
+				}).catch(() => {
+					this.refreshCode()
+				})
 			}
 		}
 	}
@@ -182,8 +209,9 @@
 		border-radius: 10rpx;
 	}
 	.code-img {
-		width: 200rpx;
-		height: 60rpx;
+		width: 150rpx;
+		height: 45rpx;
+		margin-top: 20rpx;
 	}
 	.forget {
 		color: #999;

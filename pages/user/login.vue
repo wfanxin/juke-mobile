@@ -165,8 +165,9 @@
 		padding-left: 10rpx;
 	}
 	.code-img {
-		width: 200rpx;
-		height: 60rpx;
+		width: 150rpx;
+		height: 45rpx;
+		margin-top: 10rpx;
 	}
 	.forget {
 		color: #999;
