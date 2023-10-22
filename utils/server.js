@@ -2,6 +2,7 @@ let apiUrl = 'http://juke-api.com/' // 开发
 
 // Post请求
 function requestPost(url, data = {}) {
+	data.token = uni.getStorageSync('m-token')
 	return new Promise((resolve, reject) => {
 		uni.request({
 			header: {
@@ -20,6 +21,12 @@ function requestPost(url, data = {}) {
 		    			image: '/static/show_error.png',
 		    		    duration: 2000
 		    		});
+					if (res.data.code == 20001) {
+						setTimeout(() => {
+							uni.removeStorageSync('m-token')
+							chekLogin()
+						}, 1000)
+					}
 		    		reject(res.data.message)
 		    	}
 		    },
@@ -37,6 +44,7 @@ function requestPost(url, data = {}) {
 
 // Get请求
 function requestGet(url, data = {}) {
+	data.token = uni.getStorageSync('m-token')
 	return new Promise((resolve, reject) => {
 		uni.request({
 			url: apiUrl + 'lv/api/' + url,
@@ -50,6 +58,12 @@ function requestGet(url, data = {}) {
 						image: '/static/show_error.png',
 					    duration: 2000
 					});
+					if (res.data.code == 20001) {
+						setTimeout(() => {
+							uni.removeStorageSync('m-token')
+							chekLogin()
+						}, 1000)
+					}
 					reject(res.data.message)
 				}
 			},
@@ -95,7 +109,7 @@ function uploadFile(filePath, name = 'file') {
 	return new Promise((resolve, reject) => {
 		// 上传服务器
 		uni.uploadFile({
-			url: apiUrl + 'service/uploadFile', // 仅为示例，非真实的接口地址
+			url: apiUrl + 'lv/api/service/uploadFile?token=' + uni.getStorageSync('m-token'), // 仅为示例，非真实的接口地址
 			filePath: filePath,
 			name: name,
 			timeout: 5 * 60 * 1000,
@@ -107,7 +121,7 @@ function uploadFile(filePath, name = 'file') {
 				if(res_data.code != 0){
 					reject(filePath)
 				}else{
-					resolve(res_data.data)
+					resolve(res_data.file)
 				}
 			},
 			fail: () => {
@@ -142,12 +156,19 @@ function setDeviceId() {
 
 // 登录检查
 function chekLogin(callback) {
-	let userData = uni.getStorageSync('userData')
-	if(!userData){
+	let token = uni.getStorageSync('m-token')
+	if(!token){
 		reLaunch('user/login')
 	}else{
-		callback && callback(userData)
+		callback && callback(token)
 	}
+}
+
+// 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
+function switchTab(url) {
+	uni.switchTab({
+		url: '/pages/' + url
+	});
 }
 
 // 关闭所有页面，打开到应用内的某个页面
@@ -164,6 +185,13 @@ function enterPage(url) {
 	});
 }
 
+// 关闭当前页面，返回上一页面或多级页面
+function navigateBack(delta) {
+	uni.navigateBack({
+	  delta: delta
+	});
+}
+
 module.exports = {
 	apiUrl: apiUrl,
 	requestPost: requestPost,
@@ -171,6 +199,8 @@ module.exports = {
 	uploadFile: uploadFile,
 	setDeviceId: setDeviceId,
 	chekLogin: chekLogin,
+	switchTab: switchTab,
 	reLaunch: reLaunch,
-	enterPage: enterPage
+	enterPage: enterPage,
+	navigateBack: navigateBack
 }

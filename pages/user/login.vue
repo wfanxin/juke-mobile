@@ -21,7 +21,7 @@
 				</view>
 				<view class="forget"><text @click="$server.enterPage('user/forget')">忘记密码？</text></view>
 				<button class="login-btn" @click="login()">登录</button>
-				<view class="register" @click="$server.enterPage('user/register')">立即注册</view>
+				<view class="register" @click="$server.reLaunch('user/register')">立即注册</view>
 			</view>
 		</view>
 	</view>
@@ -38,6 +38,9 @@
 			}
 		},
 		onLoad() {
+			const pages = getCurrentPages()
+			const page = pages[pages.length - 1]
+			document.title = '好友-' + page.$holder.navigationBar.titleText
 			this.refreshCode()
 		},
 		methods: {
@@ -77,7 +80,17 @@
 						mobile: this.mobile,
 						password: this.password
 					}).then((data) => {
-						console.log('成功')
+						uni.showToast({ // 失败
+						    title: '登录成功',
+							image: '/static/show_success.png'
+						});
+						
+						uni.setStorageSync('m-token', data.data.token)
+						
+						setTimeout(() => {
+							this.$server.switchTab('index/my')
+						}, 1000)
+						
 					}).catch(() => {
 						this.refreshCode()
 					})

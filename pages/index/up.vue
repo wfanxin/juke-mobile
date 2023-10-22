@@ -4,8 +4,8 @@
 		<view class="user-info-wrap">
 			<view class="user-info">
 				<view class="user-header">
-					<image src="/static/logo.png" mode=""></image>
-					<text>158666666(普通会员)</text>
+					<image :src="avatar" mode=""></image>
+					<text>{{ userData.mobile }}({{ userData.level_name }})</text>
 				</view>
 				<view class="shouyi" @click="$server.enterPage('user/shouyi')">
 					<view class="text">累计收益</view>
@@ -60,17 +60,28 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello',
-				url: this.$server.apiUrl
+				userData: {},
+				avatar: ''
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.$server.chekLogin((res) => {
-				console.log('lai')
+				this.getMember()
 			})
 		},
 		methods: {
-
+			getMember() {
+				this.$server.requestGet('user/getMember', {}).then((data) => {
+					this.userData = data.data.data
+					if (this.userData.avatar) {
+						this.avatar = this.userData.avatar
+					} else {
+						this.avatar = '/static/logo.png'
+					}
+				}).catch(() => {
+					
+				})
+			}
 		}
 	}
 </script>

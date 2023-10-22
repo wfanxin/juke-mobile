@@ -1,21 +1,21 @@
 <template>
 	<view class="content">
 		<view class="view-item">
-			<image class="user-image" src="../../static/logo.png" mode=""></image>
+			<image class="user-image" :src="avatar" @click="$server.enterPage('user/avatar')"></image>
 		</view>
 		<view class="view-item">
 			<text class="item-label">手机</text>
-			<text class="item-value">158666666</text>
-			<text class="image-arrow-right"></text>
+			<text class="item-value">{{ userData.mobile }}</text>
+			<!-- <text class="image-arrow-right"></text> -->
 		</view>
 		<view class="view-item">
 			<text class="item-label">姓名</text>
-			<text class="item-value">测试</text>
+			<text class="item-value" @click="$server.enterPage('user/name')">{{ userData.name }}</text>
 			<text class="image-arrow-right"></text>
 		</view>
 		<view class="view-item">
 			<text class="item-label">密码</text>
-			<text class="item-value active">修改</text>
+			<text class="item-value active" @click="$server.enterPage('user/password')">修改</text>
 			<text class="image-arrow-right"></text>
 		</view>
 		<button class="logout-btn" @click="logout()">退出登录</button>
@@ -26,15 +26,48 @@
 	export default {
 		data() {
 			return {
-				mobile: '',
-				mobile_code: '',
-				password: '',
-				cfpassword: ''
+				userData: {},
+				avatar: ''
 			}
 		},
+		onShow() {
+			this.$server.chekLogin((res) => {
+				this.getMember()
+			})
+		},
 		methods: {
+			getMember() {
+				this.$server.requestGet('user/getMember', {}).then((data) => {
+					this.userData = data.data.data
+					if (this.userData.avatar) {
+						this.avatar = this.userData.avatar
+					} else {
+						this.avatar = '/static/logo.png'
+					}
+				}).catch(() => {
+					
+				})
+			},
 			logout() {
-				
+				uni.showModal({
+					title: '提示',
+					content: '确认退出登录',
+					success: (res) => {
+						if (res.confirm) {
+							this.$server.requestPost('user/logout', {}).then((data) => {
+								uni.showToast({
+								   title: '退出成功',
+								   image: '/static/show_success.png'
+								})
+								setTimeout(() => {
+									this.$server.reLaunch('user/login')
+								}, 1000)
+							}).catch(() => {
+							
+							})
+						}
+					}
+				})
 			}
 		}
 	}
@@ -56,6 +89,7 @@
 	.view-item .user-image {
 		width: 80rpx;
 		height: 80rpx;
+		border-radius: 50%;
 	}
 	.view-item .item-label {
 		position: relative;

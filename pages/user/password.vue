@@ -1,23 +1,18 @@
 <template>
 	<view class="content">
 		<view class="forget-item">
-			<text class="item-label">手机号</text>
-			<input type="text" v-model="mobile" placeholder="请输入手机号">
-		</view>
-		<view class="forget-item">
-			<text class="item-label">验证码</text>
-			<input type="text" v-model="mobile_code" placeholder="请输入验证码">
-			<view class="mobile-code">获取验证码</view>
+			<text class="item-label">当前密码</text>
+			<input type="password" v-model="oldPassword" placeholder="原始密码">
 		</view>
 		<view class="forget-item">
 			<text class="item-label">新密码</text>
-			<input type="password" v-model="password" placeholder="请输入新密码">
+			<input type="password" v-model="password" placeholder="新密码">
 		</view>
 		<view class="forget-item">
 			<text class="item-label">确认新密码</text>
-			<input type="password" v-model="cfpassword" placeholder="请输入确认新密码">
+			<input type="password" v-model="cfpassword" placeholder="确认新密码">
 		</view>
-		<button class="forget-btn" @click="forget()">保存</button>
+		<button class="forget-btn" @click="edit()">保存</button>
 	</view>
 </template>
 
@@ -25,25 +20,16 @@
 	export default {
 		data() {
 			return {
-				mobile: '',
-				mobile_code: '',
+				oldPassword: '',
 				password: '',
 				cfpassword: ''
 			}
 		},
 		methods: {
-			forget() {
-				if (this.mobile === '') {
+			edit() {
+				if (this.oldPassword === '') {
 					uni.showToast({
-					   title: '手机号不能为空',
-					   image: '/static/show_error.png'
-					})
-					return false
-				}
-				
-				if (this.mobile_code === '') {
-					uni.showToast({
-					   title: '验证码不能为空',
+					   title: '原始密码不能为空',
 					   image: '/static/show_error.png'
 					})
 					return false
@@ -65,18 +51,19 @@
 					return false
 				}
 				
-				this.$server.requestPost('user/forget', {
-					mobile: this.mobile,
-					mobile_code: this.mobile_code,
+				this.$server.requestPost('user/editMember', {
+					method: 'password',
+					oldPassword: this.oldPassword,
 					password: this.password,
 					cfpassword: this.cfpassword
 				}).then((data) => {
-					uni.showToast({
-					   title: '操作成功',
-					   image: '/static/show_success.png'
-					})
+					uni.showToast({ // 失败
+					    title: '操作成功',
+						image: '/static/show_success.png'
+					});
+					
 					setTimeout(() => {
-						this.$server.reLaunch('user/login')
+						this.$server.navigateBack(1)
 					}, 1000)
 				}).catch(() => {
 
@@ -101,7 +88,7 @@
 	.forget-item .item-label {
 		position: relative;
 		top: 24rpx;
-		width: 150rpx;
+		width: 200rpx;
 		font-size: 28rpx;
 		color: #999999;
 	}

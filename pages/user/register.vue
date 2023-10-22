@@ -37,7 +37,7 @@
 					<input type="text" v-model="invite_code" placeholder="邀请码（必填）">
 				</view> -->
 				<button class="register-btn" @click="register()">免费注册</button>
-				<view class="register" @click="$server.enterPage('user/login')">已有账号,立即登录！</view>
+				<view class="register" @click="$server.reLaunch('user/login')">已有账号,立即登录！</view>
 			</view>
 		</view>
 	</view>
@@ -57,7 +57,10 @@
 				captcha_code_src: ''
 			}
 		},
-		onLoad() {
+		onLoad(options) {
+			if(options.uid != undefined){ // 从邀请链接进入，则记录邀请用户id
+				uni.setStorageSync('inviteUserId', options.uid);
+			}
 			this.refreshCode()
 		},
 		methods: {
@@ -126,6 +129,7 @@
 					vcode: this.captcha_code
 				}).then((data) => {
 					this.$server.requestPost('user/register', {
+						inviteUserId: uni.getStorageSync('inviteUserId'),
 						mobile: this.mobile,
 						name: this.name,
 						mobile_code: this.mobile_code,
@@ -133,7 +137,13 @@
 						cfpassword: this.cfpassword,
 						invite_code: this.invite_code
 					}).then((data) => {
-						console.log('成功')
+						uni.showToast({
+						   title: '注册成功',
+						   image: '/static/show_success.png'
+						})
+						setTimeout(() => {
+							this.$server.reLaunch('user/login')
+						}, 1000)
 					}).catch(() => {
 
 					})

@@ -1,10 +1,10 @@
 <template>
 	<view class="content">
 		<view class="user-info">
-			<image class="user-image" src="/static/logo.png" @click="$server.enterPage('user/personal')"></image>
+			<image class="user-image" :src="avatar" @click="$server.enterPage('user/personal')"></image>
 			<view class="user-content">
-				<view><text class="bold">【测试】</text>158666666</view>
-				<view>普通用户</view>
+				<view><text class="bold">【{{ userData.name }}】</text>{{ userData.mobile }}</view>
+				<view>{{ userData.level_name }}</view>
 			</view>
 			<view class="shouyi" @click="$server.enterPage('user/shouyi')">
 				<image src="/static/shouyi1.png" mode=""></image>
@@ -20,9 +20,19 @@
 						<text class="item-value-right">已设置</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view>
-					<view class="user-item" @click="$server.enterPage('user/friends')">
+					<!-- <view class="user-item" @click="$server.enterPage('user/friends')">
 						<text class="friend"></text>
 						<text class="item-value">我的密友</text>
+						<text class="image-arrow-right image-arrow-right-change"></text>
+					</view> -->
+					<view class="user-item" @click="$server.enterPage('')" v-if="userData.level > 0">
+						<text class="friend"></text>
+						<text class="item-value">申请列表</text>
+						<text class="image-arrow-right image-arrow-right-change"></text>
+					</view>
+					<view class="user-item" @click="$server.enterPage('')" v-if="userData.level > 0">
+						<text class="gxkt"></text>
+						<text class="item-value">国学课堂</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view>
 					<view class="user-item" @click="$server.enterPage('user/personal')">
@@ -41,18 +51,48 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello',
-				url: this.$server.apiUrl
+				userData: {},
+				avatar: ''
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.$server.chekLogin((res) => {
-				console.log('lai')
+				this.getMember()
 			})
 		},
 		methods: {
+			getMember() {
+				this.$server.requestGet('user/getMember', {}).then((data) => {
+					this.userData = data.data.data
+					if (this.userData.avatar) {
+						this.avatar = this.userData.avatar
+					} else {
+						this.avatar = '/static/logo.png'
+					}
+				}).catch(() => {
+					
+				})
+			},
 			logout() {
-				
+				uni.showModal({
+					title: '提示',
+					content: '确认退出登录',
+					success: (res) => {
+						if (res.confirm) {
+							this.$server.requestPost('user/logout', {}).then((data) => {
+								uni.showToast({
+								   title: '退出成功',
+								   image: '/static/show_success.png'
+								})
+								setTimeout(() => {
+									this.$server.reLaunch('user/login')
+								}, 1000)
+							}).catch(() => {
+							
+							})
+						}
+					}
+				})
 			}
 		}
 	}
@@ -139,6 +179,16 @@
 	    text-indent: -9999px;
 	    display: inline-block;
 	    background: url("/static/friend.png") no-repeat;
+	    background-size: 40rpx 40rpx;
+	    position: relative;
+	    top: 30rpx;
+	}
+	.user-item .gxkt {
+	    width: 40rpx;
+	    height: 40rpx;
+	    text-indent: -9999px;
+	    display: inline-block;
+	    background: url("/static/gxkt.png") no-repeat;
 	    background-size: 40rpx 40rpx;
 	    position: relative;
 	    top: 30rpx;
