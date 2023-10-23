@@ -79,6 +79,9 @@
 		justify-content: center;
 	}
 	.title {
+		position: fixed;
+		z-index: 99;
+		top: 0;
 		width: 100%;
 		height: 88rpx;
 		line-height: 88rpx;
@@ -89,6 +92,7 @@
 	.uni-margin-wrap {
 		width: calc(100vw - 40rpx);
 		margin: 15rpx 0;
+		margin-top: 105rpx;
 	}
 	.swiper {
 		height: 400rpx;

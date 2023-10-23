@@ -59,6 +59,7 @@
 								   title: '退出成功',
 								   image: '/static/show_success.png'
 								})
+								uni.removeStorageSync('m-token')
 								setTimeout(() => {
 									this.$server.reLaunch('user/login')
 								}, 1000)

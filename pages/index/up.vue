@@ -32,7 +32,7 @@
 					</view>
 					<view class="item-footer">审核人：妙尚</view>
 				</view>
-				<view class="panel-box">
+				<view class="panel-box" v-for="item in 9" :key="item">
 					<view class="item-content">
 						<view class="item-header">
 							<text class="item-time">提交时间：2023-10-16 22:23:03</text>
@@ -53,6 +53,7 @@
 				</view>
 			</view>
 		</view>
+		<view class="footer"></view>
 	</view>
 </template>
 
@@ -94,14 +95,19 @@
 		justify-content: center;
 	}
 	.title {
+		position: fixed;
+		z-index: 99;
+		top: 0;
 		width: 100%;
 		height: 88rpx;
 		line-height: 88rpx;
 		text-align: center;
 		border-bottom: 2px solid #F2F6FC;
+		background-color: #ffffff;
 	}
 	.user-info-wrap {
 		width: 100%;
+		margin-top: 90rpx;
 	}
 	.user-info-wrap .user-info {
 		background-color: #2fbb95;
@@ -205,5 +211,8 @@
 	.panel .item-footer text {
 		flex: 1;
 		text-align: right;
+	}
+	.footer {
+		height: 100rpx;
 	}
 </style>
