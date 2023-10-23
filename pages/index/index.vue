@@ -1,13 +1,42 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view class="text-area">
-			<text class="title">{{ title }}</text>
+		<view class="title">聚客</view>
+		<view class="uni-margin-wrap">
+			<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+				<swiper-item>
+					<view class="swiper-item">
+						<image  src="/static/logo.png" ></image>
+					</view>
+				</swiper-item>
+				<swiper-item>
+					<view class="swiper-item">
+						<image  src="/static/logo.png" ></image>
+					</view>
+				</swiper-item>
+				<swiper-item>
+					<view class="swiper-item">
+						<image  src="/static/logo.png" ></image>
+					</view>
+				</swiper-item>
+			</swiper>
 		</view>
-		<view>{{ url }}</view>
-		<button @click="$server.reLaunch('user/login')">登录</button>
-		<button @click="$server.enterPage('user/register')">注册</button>
-		<button @click="login">接口请求</button>
+		
+		<view class="panel">
+			<view class="shouming">
+				<image src="/static/shuoming.jpg" mode=""></image>
+				<view>平台说明</view>
+			</view>
+			<view class="panel-list">
+				<view class="panel-item">
+					<image  src="/static/logo.png" ></image>
+					<view class="text">新手指导</view>
+				</view>
+				<view class="panel-item">
+					<image  src="/static/logo.png" ></image>
+					<view class="text">名词解释</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -15,13 +44,15 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello',
-				url: this.$server.apiUrl
+				indicatorDots: true,
+				autoplay: true,
+				interval: 2000,
+				duration: 500
 			}
 		},
 		onLoad() {
 			this.$server.chekLogin((res) => {
-				console.log('lai')
+				
 			})
 		},
 		methods: {
@@ -38,29 +69,95 @@
 </script>
 
 <style>
+	page {
+		background-color: #efeff4;
+	}
 	.content {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 	}
-
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin-top: 200rpx;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50rpx;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
 	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
+		width: 100%;
+		height: 88rpx;
+		line-height: 88rpx;
+		text-align: center;
+		border-bottom: 2px solid #F2F6FC;
+		background-color: #ffffff;
+	}
+	.uni-margin-wrap {
+		width: calc(100vw - 40rpx);
+		margin: 15rpx 0;
+	}
+	.swiper {
+		height: 400rpx;
+		border: 1px solid #eee;
+	}
+	.swiper-item {
+		display: block;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		border-radius: 10rpx;
+		background-color: red;
+	}
+	.swiper-item image {
+		width: 100%;
+		height: 100%;
+		border-radius: 10rpx;
+	}
+	.panel {
+		width: calc(100vw - 40rpx);
+	    box-shadow: 0 0 5rpx #ddd;
+	    border-radius: 20rpx;
+		background-color: #ffffff;
+		margin-top: 20rpx;
+	}
+	.panel .shouming {
+		display: flex;
+		font-size: 28rpx;
+		height: 80rpx;
+		line-height: 80rpx;
+		font-weight: bold;
+	}
+	.panel .shouming image {
+		position: relative;
+		width: 50rpx;
+		height: 50rpx;
+		margin: 0 10rpx;
+		top: 16rpx;
+	}
+	.panel-list {
+		padding: 0 20rpx;
+		padding-bottom: 5rpx;
+	}
+	.panel-list .panel-item {
+		display: inline-block;
+		width: 50%;
+		box-sizing: border-box;
+		padding: 0 10rpx;
+		position: relative;
+	}
+	.panel-list .panel-item image {
+		width: 100%;
+		height: 26vw;
+		border: 1px solid #eeeeee;
+		border-radius: 10rpx;
+		margin: 5rpx 0;
+	}
+	.panel-list .panel-item .text {
+		width: calc(100% - 18rpx);
+		background-color: rgba(0,0,0,0.3);
+		color: #ffffff;
+		font-size: 30rpx;
+		font-weight: bold;
+		text-align: center;
+		height: 50rpx;
+		line-height: 50rpx;
+		position: absolute;
+		bottom: 15rpx;
+		border-bottom-left-radius: 10rpx;
+		border-bottom-right-radius: 10rpx;
 	}
 </style>

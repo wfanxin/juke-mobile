@@ -12,44 +12,44 @@
 			<view class="payment-code">收款码</view>
 			<view class="image-wrap">
 				<view class="image-box">
-					<image src="/static/logo.png" mode="aspectFit"></image>
+					<image :src="pay_url" mode="aspectFit"></image>
 				</view>
 			</view>
-			<button class="upload" @click="$server.reLaunch('user/register')">点击上传收款二维码</button>
+			<button class="upload" @click="chooseImage()">点击上传收款二维码</button>
 			<view class="code-item">
 				<text class="item-label">图形验证码</text>
 				<input type="text" v-model="captcha_code" placeholder="请输入图形验证码">
 				<image :src="captcha_code_src" class="code-img" @click="refreshCode()"></image>
 			</view>
-			<button class="submit" @click="$server.reLaunch('user/register')">提交</button>
+			<button class="submit" @click="submit()">提交</button>
 		</view>
 		<view class="pay-wrap" v-if="pay_method === 1">
 			<view class="code-item">
 				<text class="item-label">银行名称</text>
-				<input type="text" v-model="captcha_code" placeholder="请输入银行名称">
+				<input type="text" v-model="bank_name" placeholder="请输入银行名称">
 			</view>
 			<view class="code-item">
 				<text class="item-label">支行名称</text>
-				<input type="text" v-model="captcha_code" placeholder="请输入支行名称">
+				<input type="text" v-model="branch_name" placeholder="请输入支行名称">
 			</view>
 			<view class="code-item">
 				<text class="item-label">银行账号</text>
-				<input type="text" v-model="captcha_code" placeholder="请输入银行账号">
+				<input type="text" v-model="account" placeholder="请输入银行账号">
 			</view>
 			<view class="code-item">
 				<text class="item-label">账号姓名</text>
-				<input type="text" v-model="captcha_code" placeholder="请输入账号姓名">
+				<input type="text" v-model="account_name" placeholder="请输入账号姓名">
 			</view>
 			<view class="code-item">
 				<text class="item-label">联系方式</text>
-				<input type="text" v-model="captcha_code" placeholder="请输入联系方式">
+				<input type="text" v-model="contact" placeholder="请输入联系方式">
 			</view>
 			<view class="code-item">
 				<text class="item-label">图形验证码</text>
 				<input type="text" v-model="captcha_code" placeholder="请输入图形验证码">
 				<image :src="captcha_code_src" class="code-img" @click="refreshCode()"></image>
 			</view>
-			<button class="submit" @click="$server.reLaunch('user/register')">提交</button>
+			<button class="submit" @click="submit()">提交</button>
 		</view>
 		<view class="panel-wrap">
 			<view class="panel">
@@ -78,18 +78,72 @@
 				pay_method: 0,
 				captcha_code: '',
 				captcha_code_src: '',
-				walletUrl: 'https://www.tpwallet.io/'
+				walletUrl: 'https://www.tpwallet.io/',
+				pay_url: '',
+				bank_name: '',
+				branch_name: '',
+				account: '',
+				account_name: '',
+				contact: '',
+				paymentData: []
 			}
 		},
 		onLoad() {
 			this.refreshCode()
+			this.getPayment()
 		},
 		methods: {
 			refreshCode() {
 			  this.captcha_code_src = this.$server.apiUrl + 'lv/api/captchas/' + Math.random() + '?mobile_device_id=' + this.$server.setDeviceId()
 			},
+			getPayment() {
+				this.$server.requestGet('user/getPayment', {}).then((data) => {
+					this.pay_method = data.data.pay_method
+					this.paymentData = data.data.list
+					this.initData()
+				}).catch(() => {
+					
+				})
+			},
+			initData() {
+				this.bank_name = ''
+				this.branch_name = ''
+				this.account = ''
+				this.account_name = ''
+				this.contact = ''
+				this.pay_url = ''
+				if (this.pay_method === 1) {
+					if (this.paymentData[this.pay_method]) {
+						this.bank_name = this.paymentData[this.pay_method].bank_name
+						this.branch_name = this.paymentData[this.pay_method].branch_name
+						this.account = this.paymentData[this.pay_method].account
+						this.account_name = this.paymentData[this.pay_method].account_name
+						this.contact = this.paymentData[this.pay_method].contact
+					}
+				} else if (this.pay_method === 2 || this.pay_method === 3) {
+					if (this.paymentData[this.pay_method]) {
+						this.pay_url = this.paymentData[this.pay_method].pay_url
+					}
+				}
+			},
 			bindPickerChange(e) {
 				this.pay_method = e.detail.value
+				this.initData()
+			},
+			chooseImage() {
+				uni.chooseImage({
+					count :1,
+					success :(res) => {
+						this.$server.uploadFile(res.tempFilePaths[0]).then((data) => {
+							this.pay_url = data
+						}).catch(() => {
+							uni.showToast({
+							   title: '上传失败',
+							   image: '/static/show_error.png'
+							})
+						})
+					}
+				})
 			},
 			copy() {
 				uni.setClipboardData({
@@ -101,6 +155,89 @@
 				        })
 				    }
 				});
+			},
+			submit() {
+				if (this.pay_method === 0) {
+					uni.showToast({
+					   title: '请选择收款渠道',
+					   image: '/static/show_error.png'
+					})
+					return false
+				}
+				
+				const params = {}
+				params.pay_method = this.pay_method
+				if (this.pay_method === 1) {
+					if (this.bank_name === '') {
+						uni.showToast({
+						   title: '请输入银行名称',
+						   image: '/static/show_error.png'
+						})
+						return false
+					}
+					if (this.branch_name === '') {
+						uni.showToast({
+						   title: '请输入支行名称',
+						   image: '/static/show_error.png'
+						})
+						return false
+					}
+					if (this.account === '') {
+						uni.showToast({
+						   title: '请输入银行账号',
+						   image: '/static/show_error.png'
+						})
+						return false
+					}
+					if (this.account_name === '') {
+						uni.showToast({
+						   title: '请输入账号姓名',
+						   image: '/static/show_error.png'
+						})
+						return false
+					}
+					if (this.contact === '') {
+						uni.showToast({
+						   title: '请输入联系方式',
+						   image: '/static/show_error.png'
+						})
+						return false
+					}
+					params.bank_name = this.bank_name
+					params.branch_name = this.branch_name
+					params.account = this.account
+					params.account_name = this.account_name
+					params.contact = this.contact
+				} else if (this.pay_method === 2 || this.pay_method === 3) {
+					if (this.pay_url === '') {
+						uni.showToast({
+						   title: '请上传收款码',
+						   image: '/static/show_error.png'
+						})
+						return false
+					}
+					params.pay_url = this.pay_url
+				}
+				
+				this.$server.requestPost('captchas/check', {
+					mobile_device_id: this.$server.setDeviceId(),
+					vcode: this.captcha_code
+				}).then((data) => {
+					this.$server.requestPost('user/payment', params).then((data) => {
+						uni.showToast({ // 失败
+						    title: '操作成功',
+							image: '/static/show_success.png'
+						});
+						
+						setTimeout(() => {
+							this.$server.navigateBack(1)
+						}, 1000)
+					}).catch(() => {
+				
+					})
+				}).catch(() => {
+					this.refreshCode()
+				})
 			}
 		}
 	}
