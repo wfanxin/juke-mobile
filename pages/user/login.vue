@@ -40,7 +40,7 @@
 		onLoad() {
 			const pages = getCurrentPages()
 			const page = pages[pages.length - 1]
-			document.title = '好友-' + page.$holder.navigationBar.titleText
+			document.title = '聚客-' + page.$holder.navigationBar.titleText
 			this.refreshCode()
 		},
 		methods: {

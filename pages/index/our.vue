@@ -7,7 +7,7 @@
 					<image src="/static/team.png" mode=""></image>
 					<view class="info">同修总数：<text>0</text></view>
 					<view class="look-wrap">
-						<button class="look">查看推荐人</button>
+						<button class="look" @click="open()">查看推荐人</button>
 					</view>
 				</view>
 				<view class="out-content">
@@ -35,6 +35,22 @@
 			</view>
 			<view class="footer"></view>
 		</view>
+		<uni-popup class="popup" ref="popup" type="bottom">
+			<view class="popup-wrap">
+				<view class="popup-content">
+					<view class="popup-title">我的推荐人</view>
+					<image :src="inviteData.avatar" mode=""></image>
+					<view class="name">{{ inviteData.name }}</view>
+					<view class="mobile">
+						电话:{{ inviteData.mobile }}
+						<a class="text" :href="'tel:' + inviteData.mobile">拨打电话</a>
+					</view>
+				</view>
+				<view class="popup-btn-wrap">
+					<button class="popup-btn" @click="close()">取消</button>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -42,15 +58,31 @@
 	export default {
 		data() {
 			return {
-				level_list: [1,2,3,4,5,6,7,8,9,10]
+				level_list: [1,2,3,4,5,6,7,8,9,10],
+				inviteData: {}
 			}
 		},
 		onShow() {
+			document.title = '我的同修'
 			this.$server.chekLogin((res) => {
-
+				
 			})
 		},
 		methods: {
+			open() {
+				this.$server.requestGet('user/getInvite', {}).then((data) => {
+					this.inviteData = data.data.data
+					if (!this.inviteData.avatar) {
+						this.inviteData.avatar = '/static/logo.png'
+					}
+					this.$refs.popup.open('bottom')
+				}).catch(() => {
+					
+				})
+			},
+			close() {
+				this.$refs.popup.close()
+			},
 			getNum(count) {
 				let num = 1
 				for (var i = 0; i < count; i++) {
@@ -190,5 +222,62 @@
 	}
 	.footer {
 		height: 200rpx;
+	}
+	.popup {
+		z-index: 999;
+	}
+	.popup-wrap {
+		width: 100%;
+	}
+	.popup-content {
+		width: 100%;
+		height: 400rpx;
+		background-color: #ffffff;
+		padding: 0 20rpx;
+		font-size: 28rpx;
+	}
+	.popup-content image {
+		width: 100rpx;
+		height: 100rpx;
+		margin-left: calc(50vw - 50rpx);
+		border: 1px solid #eee;
+		border-radius: 50%;
+		margin-top: 20rpx;
+	}
+	.popup-content .name {
+		text-align: center;
+		height: 60rpx;
+		line-height: 60rpx;
+	}
+	.popup-content .mobile {
+		height: 80rpx;
+		line-height: 80rpx;
+		text-align: center;
+	}
+	.popup-content .mobile .text {
+		background-color: rgb(80, 218, 181);
+		font-size: 24rpx;
+		color: #fff;
+		padding: 3rpx 20rpx;
+		border-radius: 60rpx;
+		margin-left: 20rpx;
+		text-decoration: none;
+	}
+	.popup-title {
+		height: 100rpx;
+		line-height: 100rpx;
+		border-bottom: 1px solid #eee;
+		font-size: 28rpx;
+		text-align: center;
+	}
+	.popup-btn-wrap {
+		padding: 15rpx;
+	}
+	.popup-btn {
+		color: rgb(0, 122, 255);
+		font-size: 28rpx;
+		font-weight: bold;
+		height: 86rpx;
+		line-height: 86rpx;
 	}
 </style>

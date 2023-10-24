@@ -56,6 +56,7 @@
 			}
 		},
 		onShow() {
+			document.title = '我的'
 			this.$server.chekLogin((res) => {
 				this.getMember()
 			})

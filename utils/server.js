@@ -1,4 +1,5 @@
 let apiUrl = 'http://juke-api.com/' // 开发
+// let apiUrl = 'http://juke_api.yunju567.cn/' // 生产
 
 // Post请求
 function requestPost(url, data = {}) {

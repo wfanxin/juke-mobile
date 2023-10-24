@@ -39,6 +39,7 @@
 			}
 		},
 		onShow() {
+			document.title = '聚客'
 			this.$server.chekLogin((res) => {
 				this.getList()
 			})
