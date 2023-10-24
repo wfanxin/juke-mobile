@@ -32,7 +32,7 @@
 					</view>
 					<view class="item-footer">审核人：妙尚</view>
 				</view>
-				<view class="panel-box" v-for="item in 9" :key="item">
+				<view class="panel-box" v-for="item in 2" :key="item">
 					<view class="item-content">
 						<view class="item-header">
 							<text class="item-time">提交时间：2023-10-16 22:23:03</text>

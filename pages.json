@@ -109,6 +109,14 @@
 		        "navigationBarTitleText": "我的密友",
 		        "enablePullDownRefresh": false
 		    }
+		},
+		{
+		    "path" : "pages/article/detail",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "文章内容",
+		        "enablePullDownRefresh": false
+		    }
 		}
     ],
 	"globalStyle": {

@@ -3,19 +3,9 @@
 		<view class="title">聚客</view>
 		<view class="uni-margin-wrap">
 			<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-				<swiper-item>
+				<swiper-item v-for="item in slide_list" :key="item.id">
 					<view class="swiper-item">
-						<image  src="/static/logo.png" ></image>
-					</view>
-				</swiper-item>
-				<swiper-item>
-					<view class="swiper-item">
-						<image  src="/static/logo.png" ></image>
-					</view>
-				</swiper-item>
-				<swiper-item>
-					<view class="swiper-item">
-						<image  src="/static/logo.png" ></image>
+						<image :src="item.image" ></image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -27,13 +17,9 @@
 				<view>平台说明</view>
 			</view>
 			<view class="panel-list">
-				<view class="panel-item">
-					<image  src="/static/logo.png" ></image>
-					<view class="text">新手指导</view>
-				</view>
-				<view class="panel-item">
-					<image  src="/static/logo.png" ></image>
-					<view class="text">名词解释</view>
+				<view class="panel-item" v-for="item in article_list" :key="item.id" @click="$server.enterPage('article/detail?id=' + item.id)">
+					<image :src="item.image"></image>
+					<view class="text">{{ item.title }}</view>
 				</view>
 			</view>
 		</view>
@@ -47,21 +33,21 @@
 				indicatorDots: true,
 				autoplay: true,
 				interval: 2000,
-				duration: 500
+				duration: 500,
+				slide_list: [],
+				article_list: []
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.$server.chekLogin((res) => {
-				
+				this.getList()
 			})
 		},
 		methods: {
-			login() {
-				this.$server.requestPost('user/login', {
-					user_name: 'xueg',
-					password: '123456'
-				}).then((res) => {
-					console.log(res)
+			getList() {
+				this.$server.requestGet('index/list', {}).then((res) => {
+					this.slide_list = res.data.slide_list
+					this.article_list = res.data.article_list
 				})
 			}
 		}
@@ -104,7 +90,6 @@
 		height: 100%;
 		text-align: center;
 		border-radius: 10rpx;
-		background-color: red;
 	}
 	.swiper-item image {
 		width: 100%;

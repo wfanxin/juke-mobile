@@ -29,4 +29,7 @@
 	    width: 6px;
 	    height: 11px;
 	}
+	img {
+		max-width: calc(100vw - 40rpx);
+	}
 </style>
