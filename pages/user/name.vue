@@ -57,7 +57,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.content {
 		border-top: 2px solid #F2F6FC;
 		padding: 0 40rpx;
@@ -90,12 +90,12 @@
 		line-height: 60rpx;
 		font-size: 24rpx;
 		padding: 0 20rpx;
-		color: #24af8a ;
-		border: 1px solid #24af8a ;
+		color: $juke-main-dark-color ;
+		border: 1px solid $juke-main-dark-color ;
 		border-radius: 10rpx;
 	}
 	.forget-btn {
-		background-color: #50dab5;
+		background-color: $juke-main-color;
 		color: white;
 		height: 80rpx;
 		line-height: 80rpx;

@@ -102,7 +102,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.content {
 		display: flex;
 		flex-direction: column;
@@ -190,7 +190,7 @@
 		margin-bottom: 20rpx;
 	}
 	.login-btn {
-		background-color: #50dab5;
+		background-color: $juke-main-color;
 		color: white;
 		height: 80rpx;
 		line-height: 80rpx;

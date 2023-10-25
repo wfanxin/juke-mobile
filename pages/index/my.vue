@@ -100,7 +100,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.content {
 		display: flex;
 		flex-direction: column;
@@ -112,7 +112,7 @@
 		position: relative;
 		width: 100%;
 		height: 210rpx;
-		background-color: #50dab5;
+		background-color: $juke-main-color;
 	}
 	.user-info .user-image {
 		width: 128rpx;
@@ -227,7 +227,7 @@
 		top: 10rpx;
 	}
 	.logout-btn {
-		background-color: #50dab5;
+		background-color: $juke-main-color;
 		color: white;
 		height: 80rpx;
 		line-height: 80rpx;

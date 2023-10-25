@@ -117,6 +117,14 @@
 		        "navigationBarTitleText": "文章内容",
 		        "enablePullDownRefresh": false
 		    }
+		},
+		{
+		    "path" : "pages/our/group",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "小组",
+		        "enablePullDownRefresh": false
+		    }
 		}
     ],
 	"globalStyle": {
@@ -127,7 +135,7 @@
 	},
 	"tabBar": {
 	    "color": "#333333",
-	    "selectedColor": "#50dab5",
+	    "selectedColor": "#50c1da",
 	    "borderStyle": "black",
 	    "backgroundColor": "#ffffff",
 	    "list": [{

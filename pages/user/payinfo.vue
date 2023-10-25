@@ -243,7 +243,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.content {
 		border-top: 2px solid #F2F6FC;
 		background-color: #efeff4;
@@ -289,7 +289,7 @@
 		margin-top: 40rpx;
 	}
 	.pay-wrap .image-wrap .image-box {
-		background-color: #2fbb95;
+		background-color: $juke-main-dark-color;
 		width: 100%;
 		height: 100%;
 		border-radius: 20rpx;
@@ -301,7 +301,7 @@
 		margin-left: 10vw;
 	}
 	.pay-wrap .upload {
-		background-color: #50dab5;
+		background-color: $juke-main-color;
 		color: white;
 		height: 80rpx;
 		line-height: 80rpx;
@@ -311,7 +311,7 @@
 		margin: 40rpx auto;
 	}
 	.pay-wrap .submit {
-		background-color: #50dab5;
+		background-color: $juke-main-color;
 		color: white;
 		height: 80rpx;
 		line-height: 80rpx;
@@ -368,7 +368,7 @@
 		padding: 20rpx 0;
 		border-bottom: 1px #999 solid;
 		font-size: 28rpx;
-		color: #24af8a;
+		color: $juke-main-dark-color;
 	}
 	.panel-info {
 		padding: 20rpx 0;
@@ -408,8 +408,8 @@
 		flex: 1;
 	}
 	.panel-info .url .copy {
-		border: 1px solid #24af8a;
-		color: #24af8a;
+		border: 1px solid $juke-main-dark-color;
+		color: $juke-main-dark-color;
 		padding: 0 20rpx;
 		height: 40rpx;
 		line-height: 40rpx;

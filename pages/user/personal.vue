@@ -74,7 +74,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.content {
 		border-top: 2px solid #F2F6FC;
 		padding: 0 40rpx;
@@ -112,7 +112,7 @@
 		color: #29afe4;
 	}
 	.logout-btn {
-		background-color: #50dab5;
+		background-color: $juke-main-color;
 		color: white;
 		height: 80rpx;
 		line-height: 80rpx;

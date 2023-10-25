@@ -20,7 +20,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.content {
 		border-top: 2px solid #F2F6FC;
 		display: flex;
@@ -31,7 +31,7 @@
 	.shouyi-info {
 		width: 100%;
 		height: 260rpx;
-		background-color: #50dab5;
+		background-color: $juke-main-color;
 	}
 	.shouyi-info .money {
 		font-size: 85rpx;

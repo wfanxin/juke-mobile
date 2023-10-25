@@ -75,7 +75,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	page {
 		background-color: #272822;
 	}

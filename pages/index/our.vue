@@ -31,7 +31,7 @@
 		<view class="list-wrap">
 			<view class="list-item" v-for="item in level_list" :key="item">
 				<view class="left">第&nbsp;{{ item }}&nbsp;层</view>
-				<view class="right">0/{{ getNum(item) }}<view class="image-arrow-right image-arrow-right-change"></view></view>
+				<view class="right" @click="$server.enterPage('our/group?level=' + item)">0/{{ getNum(item) }}<view class="image-arrow-right image-arrow-right-change"></view></view>
 			</view>
 			<view class="footer"></view>
 		</view>
@@ -94,7 +94,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.content {
 		display: flex;
 		flex-direction: column;
@@ -118,7 +118,7 @@
 		margin-top: 90rpx;
 	}
 	.our-info-wrap .our-info {
-		background-color: #50dab5;
+		background-color: $juke-main-color;
 		height: 350rpx;
 		border-radius: 20rpx;
 		margin: 20rpx;
@@ -184,7 +184,7 @@
 		width: 100%;
 		height: 83rpx;
 		line-height: 83rpx;
-		background-color: #2fbb95;
+		background-color: $juke-main-dark-color;
 		color: #ffffff;
 		font-size: 26rpx;
 	}
@@ -255,7 +255,7 @@
 		text-align: center;
 	}
 	.popup-content .mobile .text {
-		background-color: rgb(80, 218, 181);
+		background-color: $juke-main-color;
 		font-size: 24rpx;
 		color: #fff;
 		padding: 3rpx 20rpx;

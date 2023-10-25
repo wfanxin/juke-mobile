@@ -4,7 +4,7 @@
 		<view class="user-info-wrap">
 			<view class="user-info">
 				<view class="user-header">
-					<image :src="avatar" mode=""></image>
+					<image :src="avatar"></image>
 					<text>{{ userData.mobile }}({{ userData.level_name }})</text>
 				</view>
 				<view class="shouyi" @click="$server.enterPage('user/shouyi')">
@@ -88,7 +88,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.content {
 		display: flex;
 		flex-direction: column;
@@ -111,13 +111,14 @@
 		margin-top: 90rpx;
 	}
 	.user-info-wrap .user-info {
-		background-color: #2fbb95;
+		background-color: $juke-main-dark-color;
 		height: 330rpx;
 		border-radius: 20rpx;
 		margin: 20rpx;
 	}
 	.user-info-wrap .user-info .user-header {
 		font-size: 28rpx;
+		color: #fff;
 	}
 	.user-info-wrap .user-info .user-header image {
 		position: relative;
@@ -178,7 +179,7 @@
 		text-align: right;
 	}
 	.panel .item-content .item-header .status.success {
-		color: #50dab5;
+		color: $juke-main-color;
 	}
 	.panel .item-wrap {
 		display: flex;
