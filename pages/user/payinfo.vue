@@ -12,7 +12,8 @@
 			<view class="payment-code">收款码</view>
 			<view class="image-wrap">
 				<view class="image-box">
-					<image :src="pay_url" mode="aspectFit"></image>
+					<image :src="pay_url" mode="widthFix" v-if="pay_url !== ''"></image>
+					<view v-else class="no-image"></view>
 				</view>
 			</view>
 			<button class="upload" @click="chooseImage()">点击上传收款二维码</button>
@@ -298,8 +299,10 @@
 	}
 	.pay-wrap .image-wrap .image-box image {
 		width: 20vw;
-		height: 30vw;
 		margin-left: 10vw;
+	}
+	.pay-wrap .image-wrap .image-box .no-image {
+		height: 100rpx;
 	}
 	.pay-wrap .upload {
 		background-color: $juke-main-color;

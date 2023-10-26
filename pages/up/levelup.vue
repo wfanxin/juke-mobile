@@ -1,21 +1,37 @@
 <template>
 	<view class="content">
-		<view class="select-wrap">
-			<view class="select-item">
-				<view class="select-label">收款方式</view>
-				<picker @change="bindPickerChange" :value="pay_method" :range="pay_method_list">
-					<view class="uni-input">{{pay_method_list[pay_method]}}</view>
-				</picker>
+		<view class="view-item-wrap">
+			<view class="view-item">
+				<text class="item-label">收款会员</text>
+				<text class="item-value">{{pmember.name}}</text>
+			</view>
+			<view class="view-item">
+				<text class="item-label">联系电话</text>
+				<text class="item-value">{{pmember.mobile}}</text>
+			</view>
+			<view class="view-item">
+				<text class="item-label">升级金额</text>
+				<text class="item-value">￥{{pmember.money}}</text>
 			</view>
 		</view>
-		<view class="pay-wrap" v-if="pay_method === 0 || pay_method === 2 || pay_method === 3">
-			<view class="payment-code">收款码</view>
-			<view class="image-wrap">
-				<view class="image-box">
-					<image :src="pay_url" mode="aspectFit"></image>
-				</view>
+		<view class="selelct-payment-wrap">
+			<view class="selelct-payment">收款方式</view>
+			<button v-for="item in paymentList" :key="item.id" :class="{active: pay_method === item.pay_method}" @click="selectPayment(item)">
+				<text v-if="item.pay_method === 1">银行卡</text>
+				<text v-else-if="item.pay_method === 2">微信</text>
+				<text v-else-if="item.pay_method === 3">支付宝</text>
+			</button>
+		</view>
+		<view class="pay-wrap" v-if="pay_method === 2 || pay_method === 3">
+			<view class="payment-code-wrap">
+				<view class="payment-code">收款码</view>
+				<image :src="payUrl" mode="widthFix"></image>
 			</view>
-			<button class="upload" @click="chooseImage()">点击上传收款二维码</button>
+			<view class="payment-code-wrap">
+				<view class="payment-code">上传付款凭证</view>
+				<image :src="pay_url" mode="widthFix" @click="chooseImage()" v-if="pay_url !== ''"></image>
+				<view v-else class="no-pay-url" @click="chooseImage()">+</view>
+			</view>
 			<view class="code-item">
 				<text class="item-label">图形验证码</text>
 				<input type="text" v-model="captcha_code" placeholder="请输入图形验证码">
@@ -26,23 +42,28 @@
 		<view class="pay-wrap" v-if="pay_method === 1">
 			<view class="code-item">
 				<text class="item-label">银行名称</text>
-				<input type="text" v-model="bank_name" placeholder="请输入银行名称">
+				<view class="input">{{bankData.bank_name}}</view>
 			</view>
 			<view class="code-item">
 				<text class="item-label">支行名称</text>
-				<input type="text" v-model="branch_name" placeholder="请输入支行名称">
+				<view class="input">{{bankData.branch_name}}</view>
 			</view>
 			<view class="code-item">
 				<text class="item-label">银行账号</text>
-				<input type="text" v-model="account" placeholder="请输入银行账号">
+				<view class="input">{{bankData.account}}</view>
 			</view>
 			<view class="code-item">
 				<text class="item-label">账号姓名</text>
-				<input type="text" v-model="account_name" placeholder="请输入账号姓名">
+				<view class="input">{{bankData.account_name}}</view>
 			</view>
 			<view class="code-item">
 				<text class="item-label">联系方式</text>
-				<input type="text" v-model="contact" placeholder="请输入联系方式">
+				<view class="input">{{bankData.contact}}</view>
+			</view>
+			<view class="payment-code-wrap">
+				<view class="payment-code">上传付款凭证</view>
+				<image :src="pay_url" mode="widthFix" @click="chooseImage()" v-if="pay_url !== ''"></image>
+				<view v-else class="no-pay-url" @click="chooseImage()">+</view>
 			</view>
 			<view class="code-item">
 				<text class="item-label">图形验证码</text>
@@ -74,26 +95,21 @@
 	export default {
 		data() {
 			return {
-				pay_method_list: ['请选择收款渠道', '银行卡', '微信', '支付宝'],
 				pay_method: 0,
 				captcha_code: '',
 				captcha_code_src: '',
 				walletUrl: 'https://www.tpwallet.io/',
 				pay_url: '',
-				bank_name: '',
-				branch_name: '',
-				account: '',
-				account_name: '',
-				contact: '',
-				paymentData: [],
-				upData: []
+				pmember: {},
+				paymentList: [],
+				payUrl: '',
+				bankData: {}
 			}
 		},
 		onLoad() {
 			this.$server.setTitle()
-			this.getLevelUpMember()
 			this.refreshCode()
-			this.getPayment()
+			this.getLevelUpMember()
 		},
 		methods: {
 			refreshCode() {
@@ -101,44 +117,20 @@
 			},
 			getLevelUpMember() {
 				this.$server.requestGet('up/getLevelUpMember', {}).then((data) => {
-					this.upData = data.data.data
+					this.pmember = data.data.pmember
+					this.paymentList = data.data.paymentList
 				}).catch(() => {
 					
 				})
 			},
-			getPayment() {
-				this.$server.requestGet('user/getPayment', {}).then((data) => {
-					this.pay_method = data.data.pay_method
-					this.paymentData = data.data.list
-					this.initData()
-				}).catch(() => {
-					
-				})
-			},
-			initData() {
-				this.bank_name = ''
-				this.branch_name = ''
-				this.account = ''
-				this.account_name = ''
-				this.contact = ''
-				this.pay_url = ''
-				if (this.pay_method === 1) {
-					if (this.paymentData[this.pay_method]) {
-						this.bank_name = this.paymentData[this.pay_method].bank_name
-						this.branch_name = this.paymentData[this.pay_method].branch_name
-						this.account = this.paymentData[this.pay_method].account
-						this.account_name = this.paymentData[this.pay_method].account_name
-						this.contact = this.paymentData[this.pay_method].contact
-					}
-				} else if (this.pay_method === 2 || this.pay_method === 3) {
-					if (this.paymentData[this.pay_method]) {
-						this.pay_url = this.paymentData[this.pay_method].pay_url
-					}
+			selectPayment(item) {
+				this.pay_method = item.pay_method
+				this.payUrl = ''
+				if (this.pay_method === 2 || this.pay_method === 3) {
+					this.payUrl = item.content.pay_url
+				} else if (this.pay_method === 1) {
+					this.bankData = item.content
 				}
-			},
-			bindPickerChange(e) {
-				this.pay_method = e.detail.value
-				this.initData()
 			},
 			chooseImage() {
 				uni.chooseImage({
@@ -169,71 +161,40 @@
 			submit() {
 				if (this.pay_method === 0) {
 					uni.showToast({
-					   title: '请选择收款渠道',
+					   title: '请选择收款方式',
 					   image: '/static/show_error.png'
 					})
 					return false
 				}
 				
-				const params = {}
-				params.pay_method = this.pay_method
-				if (this.pay_method === 1) {
-					if (this.bank_name === '') {
-						uni.showToast({
-						   title: '请输入银行名称',
-						   image: '/static/show_error.png'
-						})
-						return false
-					}
-					if (this.branch_name === '') {
-						uni.showToast({
-						   title: '请输入支行名称',
-						   image: '/static/show_error.png'
-						})
-						return false
-					}
-					if (this.account === '') {
-						uni.showToast({
-						   title: '请输入银行账号',
-						   image: '/static/show_error.png'
-						})
-						return false
-					}
-					if (this.account_name === '') {
-						uni.showToast({
-						   title: '请输入账号姓名',
-						   image: '/static/show_error.png'
-						})
-						return false
-					}
-					if (this.contact === '') {
-						uni.showToast({
-						   title: '请输入联系方式',
-						   image: '/static/show_error.png'
-						})
-						return false
-					}
-					params.bank_name = this.bank_name
-					params.branch_name = this.branch_name
-					params.account = this.account
-					params.account_name = this.account_name
-					params.contact = this.contact
-				} else if (this.pay_method === 2 || this.pay_method === 3) {
-					if (this.pay_url === '') {
-						uni.showToast({
-						   title: '请上传收款码',
-						   image: '/static/show_error.png'
-						})
-						return false
-					}
-					params.pay_url = this.pay_url
+				if (this.pay_url === '') {
+					uni.showToast({
+					   title: '请上传付款凭证',
+					   image: '/static/show_error.png'
+					})
+					return false
+				}
+				
+				if (this.captcha_code === '') {
+					uni.showToast({
+					   title: '请输入验证码',
+					   image: '/static/show_error.png'
+					})
+					return false
+				}
+				
+				const params = {
+					pay_uid: this.pmember.id,
+					pay_method: this.pay_method,
+					pay_url: this.pay_url,
+					money: this.pmember.money
 				}
 				
 				this.$server.requestPost('captchas/check', {
 					mobile_device_id: this.$server.setDeviceId(),
 					vcode: this.captcha_code
 				}).then((data) => {
-					this.$server.requestPost('user/payment', params).then((data) => {
+					this.$server.requestPost('up/levelUp', params).then((data) => {
 						uni.showToast({ // 失败
 						    title: '操作成功',
 							image: '/static/show_success.png'
@@ -259,56 +220,71 @@
 		background-color: #efeff4;
 		padding-bottom: 10rpx;
 		padding-top: 30rpx;
-	}
-	.select-wrap {
-		padding: 0 40rpx;
-		color: #333333;
-		font-size: 28rpx;
-	}
-	.select-item {
-		display: flex;
 		background-color: #ffffff;
-		border-radius: 5rpx;
+	}
+	.view-item-wrap {
+		padding: 0 40rpx;
+	}
+	.view-item {
+		display: flex;
+		border-bottom: 1px solid #eee;
+		margin-bottom: 10rpx;
+		padding-bottom: 10rpx;
+		
+	}
+	.view-item .item-label {
+		position: relative;
+		top: 24rpx;
+		width: 150rpx;
+		font-size: 26rpx;
+		color: #999999;
+	}
+	.view-item .item-value {
+		flex: 1;
 		height: 80rpx;
 		line-height: 80rpx;
-		padding: 0 20rpx;
+		font-size: 26rpx;
+		padding-left: 10rpx;
+		text-align: left;
+		padding-right: 20rpx;
 	}
-	.select-item .select-label {
-		width: 160rpx;
+	.selelct-payment-wrap {
+		margin-top: 30rpx;
 	}
-	.select-item picker {
-		flex: 1;
+	.selelct-payment {
+		font-size: 28rpx;
+		padding-left: 40rpx;
+		display: inline-block;
+		margin-right: 40rpx;
+		position: relative;
+		top: -20rpx;
+		font-size: 26rpx;
+	}
+	.selelct-payment-wrap button {
+		display: inline-block;
+		font-size: 26rpx;
+		height: 60rpx;
+		line-height: 60rpx;
+		margin-right: 20rpx;
+	}
+	.selelct-payment-wrap button.active {
+		background-color: $juke-main-color;
+		color: #ffffff;
 	}
 	.pay-wrap {
 		padding: 0 40rpx;
-		font-size: 28rpx;
+		font-size: 26rpx;
 		margin: 0 auto;
 	}
-	.pay-wrap .payment-code {
+	.pay-wrap .payment-code-wrap {
+		display: flex;
 		margin-top: 30rpx;
 	}
-	.pay-wrap .image-wrap {
-		display: flex;
-	    background: rgba(82,93,149,0.15);
-	    border-radius: 20rpx;
-	    width: 40vw;
-		margin: 0 30vw;
-		position: relative;
-		left: -60rpx;
-	    padding: 20rpx;
-		margin-top: 40rpx;
+	.pay-wrap .payment-code-wrap .payment-code {
+		margin-right: 70rpx;
 	}
-	.pay-wrap .image-wrap .image-box {
-		background-color: $juke-main-dark-color;
-		width: 100%;
-		height: 100%;
-		border-radius: 20rpx;
-		padding: 50rpx 0;
-	}
-	.pay-wrap .image-wrap .image-box image {
-		width: 20vw;
-		height: 30vw;
-		margin-left: 10vw;
+	.pay-wrap .payment-code-wrap image {
+		flex: 1;
 	}
 	.pay-wrap .upload {
 		background-color: $juke-main-color;
@@ -341,14 +317,13 @@
 		position: relative;
 		top: 24rpx;
 		width: 160rpx;
-		font-size: 28rpx;
-		padding-left: 20rpx;
+		font-size: 26rpx;
 	}
-	.code-item input {
+	.code-item .input, .code-item input {
 		flex: 1;
 		height: 80rpx;
 		line-height: 80rpx;
-		font-size: 28rpx;
+		font-size: 26rpx;
 		padding-left: 10rpx;
 		margin-top: 3rpx;
 	}
@@ -425,5 +400,14 @@
 		line-height: 40rpx;
 		margin-top: 20rpx;
 		border-radius: 30rpx;
+	}
+	.no-pay-url {
+		border: 1px solid #eee;
+		width: 50vw;
+		height: 30vw;
+		line-height: 30vw;
+		text-align: center;
+		color: #eee;
+		font-size: 50rpx;
 	}
 </style>

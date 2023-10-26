@@ -13,45 +13,32 @@
 				</view>
 			</view>
 		</view>
-		<view class="up-wrap" v-if="userData.level < 10">
+		<view class="up-wrap" v-if="userData.level < 10 && (payRecordList.length === 0 || payRecordList[0].status === 2)">
 			<button class="up-btn" @click="$server.enterPage('up/levelup')">立即升级</button>
 		</view>
-		<view class="panel-wrap">
+		<view class="panel-wrap" v-if="payRecordList.length > 0">
 			<view class="panel">
 				<view class="item-title">升级记录</view>
-				<view class="panel-box" @click="$server.enterPage('up/levelupdetail')">
+				<view class="panel-box" @click="$server.enterPage('up/levelupdetail?id=' + item.id)" v-for="item in payRecordList" :key="item.id">
 					<view class="item-content">
 						<view class="item-header">
-							<text class="item-time">提交时间：2023-10-16 22:23:03</text>
-							<text class="status">审核中</text>
+							<text class="item-time">提交时间：{{item.created_at}}</text>
+							<text class="status" v-if="item.status === 0">审核中</text>
+							<text class="status success" v-else-if="item.status === 1">审核通过</text>
+							<text class="status fail" v-else-if="item.status === 2">审核失败</text>
 						</view>
 					</view>
 					<view class="item-wrap">
-						<image src="/static/logo.png"></image>
+						<image src="/static/logo.png" v-if="item.pay_avatar === ''"></image>
+						<image :src="item.pay_avatar" v-else></image>
 						<view class="item-info">
-							<view class="name">课程一</view>
-							<view class="money">付款金额：9.00</view>
-						</view>
-					</view>
-					<view class="item-footer">审核人：妙尚</view>
-				</view>
-				<view class="panel-box" @click="$server.enterPage('up/levelupdetail')">
-					<view class="item-content">
-						<view class="item-header">
-							<text class="item-time">提交时间：2023-10-16 22:23:03</text>
-							<text class="status success">审核通过</text>
-						</view>
-					</view>
-					<view class="item-wrap">
-						<image src="/static/logo.png"></image>
-						<view class="item-info">
-							<view class="name">课程一</view>
-							<view class="money">付款金额：9.00</view>
+							<view class="name">升级{{item.up_level_name}}</view>
+							<view class="money">付款金额：{{item.money}}</view>
 						</view>
 					</view>
 					<view class="item-footer">
-						审核人：妙尚
-						<text>审核时间：2023-10-16 22:33:03</text>
+						审核人：{{item.pay_name}}
+						<text v-if="item.status !== 0">审核时间：{{item.updated_at}}</text>
 					</view>
 				</view>
 			</view>
@@ -65,13 +52,15 @@
 		data() {
 			return {
 				userData: {},
-				avatar: ''
+				avatar: '',
+				payRecordList: []
 			}
 		},
 		onShow() {
 			this.$server.setTitle()
 			this.$server.chekLogin((res) => {
 				this.getMember()
+				this.getPayRecordList()
 			})
 		},
 		methods: {
@@ -83,6 +72,13 @@
 					} else {
 						this.avatar = '/static/logo.png'
 					}
+				}).catch(() => {
+					
+				})
+			},
+			getPayRecordList() {
+				this.$server.requestGet('up/getPayRecordList', {}).then((data) => {
+					this.payRecordList = data.data.data
 				}).catch(() => {
 					
 				})
@@ -195,6 +191,9 @@
 	}
 	.panel .item-content .item-header .status.success {
 		color: $juke-main-color;
+	}
+	.panel .item-content .item-header .status.fail {
+		color: red;
 	}
 	.panel .item-wrap {
 		display: flex;

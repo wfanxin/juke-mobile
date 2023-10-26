@@ -11,14 +11,23 @@
 	export default {
 		data() {
 			return {
-
+				applyList: []
 			}
 		},
 		onLoad() {
 			this.$server.setTitle()
+			this.$server.chekLogin((res) => {
+				this.getApplyList()
+			})
 		},
 		methods: {
-
+			getApplyList() {
+				this.$server.requestGet('up/getApplyList', {}).then((data) => {
+					this.applyList = data.data.data
+				}).catch(() => {
+					
+				})
+			}
 		}
 	}
 </script>

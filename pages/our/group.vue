@@ -9,20 +9,21 @@
 				<view class="panel-box" v-for="item in group_list" :key="item.id">
 					<view class="item-content">
 						<view class="item-header">
-							<text class="item-time">提交时间：2023-10-16 22:23:03</text>
+							<text class="item-time">注册时间：{{item.created_at}}</text>
 							<text class="status success"></text>
 						</view>
 					</view>
 					<view class="item-wrap">
-						<image src="/static/logo.png"></image>
+						<image src="/static/logo.png" v-if="item.avatar === ''"></image>
+						<image :src="item.avatar" v-else></image>
 						<view class="item-info">
 							<view class="name">{{item.name}}</view>
 							<view class="money"></view>
 						</view>
 					</view>
 					<view class="item-footer">
-						审核人：妙尚
-						<text>审核时间：2023-10-16 22:33:03</text>
+						邀请人：{{item.invite_name}}
+						<!-- <text></text> -->
 					</view>
 				</view>
 			</view>
