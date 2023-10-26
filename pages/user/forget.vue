@@ -31,6 +31,9 @@
 				cfpassword: ''
 			}
 		},
+		onLoad() {
+			this.$server.setTitle()
+		},
 		methods: {
 			forget() {
 				if (this.mobile === '') {

@@ -4,28 +4,28 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "聚客"
 			}
 		},
 		{
 			"path": "pages/index/our",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "我的同修"
 			}
 		},
 		{
 			"path": "pages/index/up",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "升级"
 			}
 		},
 		{
 			"path": "pages/index/my",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "我的"
 			}
 		},
 		{
@@ -111,6 +111,30 @@
 		    }
 		},
 		{
+		    "path" : "pages/user/invite",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "邀请好友",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
+		    "path" : "pages/user/apply",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "申请列表",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
+		    "path" : "pages/user/gxkt",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "国学课堂",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
 		    "path" : "pages/article/detail",
 		    "style" :                                                                                    
 		    {
@@ -123,6 +147,22 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "小组",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
+		    "path" : "pages/up/levelup",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "立即升级",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
+		    "path" : "pages/up/levelupdetail",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "升级详情",
 		        "enablePullDownRefresh": false
 		    }
 		}

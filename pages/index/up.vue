@@ -13,10 +13,13 @@
 				</view>
 			</view>
 		</view>
+		<view class="up-wrap" v-if="userData.level < 10">
+			<button class="up-btn" @click="$server.enterPage('up/levelup')">立即升级</button>
+		</view>
 		<view class="panel-wrap">
 			<view class="panel">
 				<view class="item-title">升级记录</view>
-				<view class="panel-box">
+				<view class="panel-box" @click="$server.enterPage('up/levelupdetail')">
 					<view class="item-content">
 						<view class="item-header">
 							<text class="item-time">提交时间：2023-10-16 22:23:03</text>
@@ -32,7 +35,7 @@
 					</view>
 					<view class="item-footer">审核人：妙尚</view>
 				</view>
-				<view class="panel-box">
+				<view class="panel-box" @click="$server.enterPage('up/levelupdetail')">
 					<view class="item-content">
 						<view class="item-header">
 							<text class="item-time">提交时间：2023-10-16 22:23:03</text>
@@ -66,7 +69,7 @@
 			}
 		},
 		onShow() {
-			document.title = '升级'
+			this.$server.setTitle()
 			this.$server.chekLogin((res) => {
 				this.getMember()
 			})
@@ -141,6 +144,18 @@
 		text-align: center;
 		font-size: 50rpx;
 		margin-top: 10rpx;
+	}
+	.up-wrap {
+		margin-bottom: 20rpx;
+	}
+	.up-btn {
+		background-color: $juke-main-color;
+		color: white;
+		height: 60rpx;
+		line-height: 60rpx;
+		font-size: 28rpx;
+		margin: 20rpx 0;
+		width: 80vw;
 	}
 	.panel-wrap {
 		width: 100%;

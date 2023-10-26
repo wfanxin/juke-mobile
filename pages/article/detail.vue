@@ -14,6 +14,7 @@
 			}
 		},
 		onLoad(options) {
+			this.$server.setTitle()
 			this.getList(options.id)
 		},
 		methods: {

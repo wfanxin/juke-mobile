@@ -85,17 +85,26 @@
 				account: '',
 				account_name: '',
 				contact: '',
-				paymentData: []
+				paymentData: [],
+				upData: []
 			}
 		},
 		onLoad() {
 			this.$server.setTitle()
+			this.getLevelUpMember()
 			this.refreshCode()
 			this.getPayment()
 		},
 		methods: {
 			refreshCode() {
 			  this.captcha_code_src = this.$server.apiUrl + 'lv/api/captchas/' + Math.random() + '?mobile_device_id=' + this.$server.setDeviceId()
+			},
+			getLevelUpMember() {
+				this.$server.requestGet('up/getLevelUpMember', {}).then((data) => {
+					this.upData = data.data.data
+				}).catch(() => {
+					
+				})
 			},
 			getPayment() {
 				this.$server.requestGet('user/getPayment', {}).then((data) => {

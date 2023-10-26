@@ -25,12 +25,17 @@
 						<text class="item-value">我的密友</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view> -->
-					<view class="user-item" @click="$server.enterPage('')" v-if="userData.level > 0">
-						<text class="friend"></text>
+					<view class="user-item" @click="$server.enterPage('user/invite')" v-if="userData.level >= 4">
+						<text class="invite"></text>
+						<text class="item-value">邀请好友</text>
+						<text class="image-arrow-right image-arrow-right-change"></text>
+					</view>
+					<view class="user-item" @click="$server.enterPage('user/apply')" v-if="userData.level >= 4">
+						<text class="apply"></text>
 						<text class="item-value">申请列表</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view>
-					<view class="user-item" @click="$server.enterPage('')" v-if="userData.level > 0">
+					<view class="user-item" @click="$server.enterPage('user/gxkt')" v-if="userData.level >= 4">
 						<text class="gxkt"></text>
 						<text class="item-value">国学课堂</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
@@ -56,7 +61,7 @@
 			}
 		},
 		onShow() {
-			document.title = '我的'
+			this.$server.setTitle()
 			this.$server.chekLogin((res) => {
 				this.getMember()
 			})
@@ -171,6 +176,26 @@
 	    text-indent: -9999px;
 	    display: inline-block;
 	    background: url("/static/bank.png") no-repeat;
+	    background-size: 40rpx 40rpx;
+	    position: relative;
+	    top: 30rpx;
+	}
+	.user-item .invite {
+	    width: 40rpx;
+	    height: 40rpx;
+	    text-indent: -9999px;
+	    display: inline-block;
+	    background: url("/static/friend.png") no-repeat;
+	    background-size: 40rpx 40rpx;
+	    position: relative;
+	    top: 30rpx;
+	}
+	.user-item .apply {
+	    width: 40rpx;
+	    height: 40rpx;
+	    text-indent: -9999px;
+	    display: inline-block;
+	    background: url("/static/our.png") no-repeat;
 	    background-size: 40rpx 40rpx;
 	    position: relative;
 	    top: 30rpx;

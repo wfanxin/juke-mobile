@@ -25,6 +25,9 @@
 				cfpassword: ''
 			}
 		},
+		onLoad() {
+			this.$server.setTitle()
+		},
 		methods: {
 			edit() {
 				if (this.oldPassword === '') {

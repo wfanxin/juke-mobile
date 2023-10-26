@@ -5,7 +5,7 @@
 			<view class="our-info">
 				<view class="our-header">
 					<image src="/static/team.png" mode=""></image>
-					<view class="info">同修总数：<text>0</text></view>
+					<view class="info">同修总数：<text>{{total_num}}</text></view>
 					<view class="look-wrap">
 						<button class="look" @click="open()">查看推荐人</button>
 					</view>
@@ -29,9 +29,9 @@
 			<view class="right">已有人数/满位人数</view>
 		</view>
 		<view class="list-wrap">
-			<view class="list-item" v-for="item in level_list" :key="item">
-				<view class="left">第&nbsp;{{ item }}&nbsp;层</view>
-				<view class="right" @click="$server.enterPage('our/group?level=' + item)">0/{{ getNum(item) }}<view class="image-arrow-right image-arrow-right-change"></view></view>
+			<view class="list-item" v-for="item in level_list" :key="item.level">
+				<view class="left">第&nbsp;{{ item.level }}&nbsp;层</view>
+				<view class="right" @click="$server.enterPage('our/group?level=' + item.level)">{{item.num}}/{{ getNum(item.level) }}<view class="image-arrow-right image-arrow-right-change"></view></view>
 			</view>
 			<view class="footer"></view>
 		</view>
@@ -58,17 +58,37 @@
 	export default {
 		data() {
 			return {
-				level_list: [1,2,3,4,5,6,7,8,9,10],
+				total_num: 0,
+				level_list: [
+					{level: 1, num: 0},
+					{level: 2, num: 0},
+					{level: 3, num: 0},
+					{level: 4, num: 0},
+					{level: 5, num: 0},
+					{level: 6, num: 0},
+					{level: 7, num: 0},
+					{level: 8, num: 0},
+					{level: 9, num: 0},
+					{level: 10, num: 0}
+				],
 				inviteData: {}
 			}
 		},
 		onShow() {
-			document.title = '我的同修'
+			this.$server.setTitle()
 			this.$server.chekLogin((res) => {
-				
+				this.getOurLevelNum()
 			})
 		},
 		methods: {
+			getOurLevelNum() {
+				this.$server.requestGet('our/getOurLevelNum', {}).then((data) => {
+					this.level_list = data.data.data
+					this.total_num = data.data.total_num
+				}).catch(() => {
+					
+				})
+			},
 			open() {
 				this.$server.requestGet('user/getInvite', {}).then((data) => {
 					this.inviteData = data.data.data

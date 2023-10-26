@@ -155,6 +155,25 @@ function setDeviceId() {
 	return deviceId
 }
 
+// 设置网站标题
+function setTitle() {
+	const pages = getCurrentPages()
+	const page = pages[pages.length - 1]
+	
+	let site = uni.getStorageSync('mSite')
+	if (site) {
+		document.title = site + '-' + page.$holder.navigationBar.titleText
+	} else {
+		requestGet('config/getSite', {}).then((data) => {
+			site = data.data.data
+			uni.setStorageSync('mSite', site)
+			document.title = site + '-' + page.$holder.navigationBar.titleText
+		}).catch(() => {
+			document.title = page.$holder.navigationBar.titleText
+		})
+	}
+}
+
 // 登录检查
 function chekLogin(callback) {
 	let token = uni.getStorageSync('m-token')
@@ -200,6 +219,7 @@ module.exports = {
 	uploadFile: uploadFile,
 	setDeviceId: setDeviceId,
 	chekLogin: chekLogin,
+	setTitle: setTitle,
 	switchTab: switchTab,
 	reLaunch: reLaunch,
 	enterPage: enterPage,

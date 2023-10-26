@@ -14,6 +14,9 @@
 
 			}
 		},
+		onLoad() {
+			this.$server.setTitle()
+		},
 		methods: {
 
 		}

@@ -38,9 +38,7 @@
 			}
 		},
 		onLoad() {
-			const pages = getCurrentPages()
-			const page = pages[pages.length - 1]
-			document.title = '聚客-' + page.$holder.navigationBar.titleText
+			this.$server.setTitle()
 			this.refreshCode()
 		},
 		methods: {

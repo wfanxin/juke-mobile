@@ -58,6 +58,7 @@
 			}
 		},
 		onLoad(options) {
+			this.$server.setTitle()
 			if(options.uid != undefined){ // 从邀请链接进入，则记录邀请用户id
 				uni.setStorageSync('inviteUserId', options.uid);
 			}

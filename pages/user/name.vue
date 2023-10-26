@@ -16,6 +16,7 @@
 			}
 		},
 		onLoad() {
+			this.$server.setTitle()
 			this.$server.chekLogin((res) => {
 				this.getMember()
 			})
