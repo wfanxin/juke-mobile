@@ -21,14 +21,16 @@
 							<view class="money">付款金额：{{item.money}}</view>
 						</view>
 					</view>
-					<!-- <view class="item-footer">
-						<text>上传凭证</text>
-					</view> -->
 					<image class="pay-iamge" :src="item.pay_url" @click="previewImage(item.pay_url)"></image>
-					<view class="pass-wrap">
-						<view class="pass-left"></view>
-						<button class="fail">审核失败</button>
-						<button class="success">审核通过</button>
+					<view class="pass-wrap" v-if="item.status === 0">
+						<view class="pass-left">升级{{item.up_level_name}}</view>
+						<button class="fail" @click="verify(item, 2)">审核失败</button>
+						<button class="success" @click="verify(item, 1)">审核通过</button>
+					</view>
+					<view class="item-footer" v-else>
+						升级{{item.up_level_name}}
+						<text v-if="item.status === 1" class="success">审核通过</text>
+						<text v-else-if="item.status === 2" class="fail">审核失败</text>
 					</view>
 				</view>
 			</view>
@@ -64,6 +66,35 @@
 				uni.previewImage({
 					urls: [url]
 				});
+			},
+			verify(item, status) {
+				let message = ''
+				if (status === 1) {
+					message = '确认审核通过'
+				} else if (status === 2) {
+					message = '确认审核失败'
+				}
+				uni.showModal({
+					title: '提示',
+					content: message,
+					success: (res) => {
+						if (res.confirm) {
+							const params = {
+								id: item.id,
+								status : status
+							}
+							this.$server.requestPost('up/upVerify', params).then((data) => {
+								uni.showToast({
+								   title: '操作成功',
+								   image: '/static/show_success.png'
+								})
+								item.status = status
+							}).catch(() => {
+							
+							})
+						}
+					}
+				})
 			}
 		}
 	}
@@ -142,10 +173,17 @@
 	}
 	.panel .item-footer {
 		display: flex;
-		font-size: 24rpx;
+		font-size: 28rpx;
 		height: 80rpx;
 		line-height: 80rpx;
 		padding-bottom: 20rpx;
+		color: #666;
+	}
+	.panel .item-footer .fail {
+		color: orangered;
+	}
+	.panel .item-footer .success {
+		color: seagreen;
 	}
 	.panel .item-footer text {
 		flex: 1;
@@ -165,6 +203,8 @@
 	}
 	.pass-wrap .pass-left {
 		flex: 1;
+		font-size: 28rpx;
+		color: #666;
 	}
 	.pass-wrap button {
 		height: 60rpx;

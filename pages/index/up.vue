@@ -9,7 +9,7 @@
 				</view>
 				<view class="shouyi" @click="$server.enterPage('user/shouyi')">
 					<view class="text">累计收益</view>
-					<view class="money">0</view>
+					<view class="money">{{ userData.money }}</view>
 				</view>
 			</view>
 		</view>

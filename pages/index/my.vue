@@ -35,7 +35,7 @@
 						<text class="item-value">审核列表</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view>
-					<view class="user-item" @click="$server.enterPage('user/gxkt')" v-if="userData.level >= 4">
+					<view class="user-item" @click="$server.enterPage('user/gxkt?level=' + userData.level)" v-if="userData.level > 0">
 						<text class="gxkt"></text>
 						<text class="item-value">国学课堂</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
