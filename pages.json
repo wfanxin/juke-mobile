@@ -122,7 +122,7 @@
 		    "path" : "pages/user/apply",
 		    "style" :                                                                                    
 		    {
-		        "navigationBarTitleText": "申请列表",
+		        "navigationBarTitleText": "审核列表",
 		        "enablePullDownRefresh": false
 		    }
 		},

@@ -32,7 +32,7 @@
 					</view>
 					<view class="user-item" @click="$server.enterPage('user/apply')" v-if="userData.level >= 4">
 						<text class="apply"></text>
-						<text class="item-value">申请列表</text>
+						<text class="item-value">审核列表</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view>
 					<view class="user-item" @click="$server.enterPage('user/gxkt')" v-if="userData.level >= 4">
