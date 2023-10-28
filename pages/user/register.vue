@@ -19,11 +19,11 @@
 					<input type="text" v-model="captcha_code" placeholder="请输入验证码">
 					<image :src="captcha_code_src" class="code-img" @click="refreshCode()"></image>
 				</view>
-				<view class="register-item">
+				<!-- <view class="register-item">
 					<text class="item-label">动态码</text>
 					<input type="text" v-model="mobile_code" placeholder="请输入手机动态码">
 					<view class="mobile-code">点击获取</view>
-				</view>
+				</view> -->
 				<view class="register-item">
 					<text class="item-label">密码</text>
 					<input type="password" v-model="password" placeholder="请输入密码">
@@ -50,7 +50,7 @@
 				mobile: '',
 				name: '',
 				captcha_code: '',
-				mobile_code: '',
+				mobile_code: '123456',
 				password: '',
 				cfpassword: '',
 				invite_code: '',

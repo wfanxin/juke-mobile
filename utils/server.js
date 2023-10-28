@@ -163,15 +163,15 @@ function setTitle() {
 	let site = uni.getStorageSync('mSite')
 	if (site) {
 		document.title = site + '-' + page.$holder.navigationBar.titleText
-	} else {
-		requestGet('config/getSite', {}).then((data) => {
-			site = data.data.data
-			uni.setStorageSync('mSite', site)
-			document.title = site + '-' + page.$holder.navigationBar.titleText
-		}).catch(() => {
-			document.title = page.$holder.navigationBar.titleText
-		})
 	}
+	
+	requestGet('config/getSite', {}).then((data) => {
+		site = data.data.data
+		uni.setStorageSync('mSite', site)
+		document.title = site + '-' + page.$holder.navigationBar.titleText
+	}).catch(() => {
+		document.title = page.$holder.navigationBar.titleText
+	})
 }
 
 // 登录检查

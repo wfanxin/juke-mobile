@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<view class="title">聚客</view>
+		<view class="title">{{ title }}</view>
 		<view class="uni-margin-wrap">
 			<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 				<swiper-item v-for="item in slide_list" :key="item.id">
@@ -30,6 +30,7 @@
 	export default {
 		data() {
 			return {
+				title: '',
 				indicatorDots: true,
 				autoplay: true,
 				interval: 2000,
@@ -40,11 +41,19 @@
 		},
 		onShow() {
 			this.$server.setTitle()
+			this.getSite()
 			this.$server.chekLogin((res) => {
 				this.getList()
 			})
 		},
 		methods: {
+			getSite() {
+				this.$server.requestGet('config/getSite', {}).then((data) => {
+					this.title = data.data.data
+				}).catch(() => {
+
+				})
+			},
 			getList() {
 				this.$server.requestGet('index/list', {}).then((res) => {
 					this.slide_list = res.data.slide_list

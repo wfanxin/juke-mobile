@@ -4,11 +4,11 @@
 			<text class="item-label">手机号</text>
 			<input type="text" v-model="mobile" placeholder="请输入手机号">
 		</view>
-		<view class="forget-item">
+		<!-- <view class="forget-item">
 			<text class="item-label">验证码</text>
 			<input type="text" v-model="mobile_code" placeholder="请输入验证码">
 			<view class="mobile-code">获取验证码</view>
-		</view>
+		</view> -->
 		<view class="forget-item">
 			<text class="item-label">新密码</text>
 			<input type="password" v-model="password" placeholder="请输入新密码">
@@ -26,7 +26,7 @@
 		data() {
 			return {
 				mobile: '',
-				mobile_code: '',
+				mobile_code: '123456',
 				password: '',
 				cfpassword: ''
 			}

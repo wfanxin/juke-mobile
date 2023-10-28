@@ -1,12 +1,15 @@
 <template>
 	<view class="content">
-		<view class="no-data" v-if="loading && (list.length === 0 || level <= 0)">
+		<view class="no-data" v-if="loading && list.length === 0">
 			<image class="no-image" src="../../static/no_data.png" mode=""></image>
 			<view class="no-text">暂无数据</view>
 		</view>
-		<view v-for="(item, index) in list" :key="item.label" class="video-wrap" v-if="index < level">
-			<button>{{item.label}}</button>
-			<video :src="item.video"></video>
+		<view class="list-item">
+			<image src="../../static/logo.png"></image>
+			<view class="info-wrap">
+				<view class="info">几点几分了打发发打发离开家离开可奖励奖励啊打发法啊打发法的可奖励奖励尽快解决 会计理论界打发发打发</view>
+				<view class="time">12:34</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -24,10 +27,12 @@
 			this.$server.setTitle()
 			this.$server.chekLogin((res) => {
 				this.getGrade()
-				this.level = options.level
 			})
 		},
 		methods: {
+			onNavigationBarButtonTap() {
+				this.$server.enterPage('user/addleave')
+			},
 			getGrade() {
 				this.loading = false
 				this.$server.requestGet('config/getGrade', {}).then((data) => {
@@ -48,26 +53,28 @@
 		// flex-direction: column;
 		// align-items: center;
 		// justify-content: center;
-		padding: 10rpx;
+		padding: 20rpx;
 	}
-	.video-wrap {
-		display: inline-block;
-		margin-top: 20rpx;
-		width: 50%;
-		padding: 0 10rpx;
-		box-sizing: border-box;
+	.list-item {
+		display: flex;
+		border-bottom: 1px solid #eee;
+		padding-bottom: 10rpx;
 	}
-	.video-wrap button {
-		height: 60rpx;
-		line-height: 60rpx;
-		font-size: 28rpx;
-		background-color: $juke-main-color;
-		color: #fff;
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
+	.list-item image {
+		width: 80rpx;
+		height: 80rpx;
+		border: 1px solid #eee;
 	}
-	.video-wrap video {
-		width: 100%;
+	.list-item .info-wrap {
+		flex: 1;
+		font-size: 26rpx;
+		line-height: 40rpx;
+		margin-left: 20rpx;
+	}
+	.list-item .info-wrap .time {
+		font-size: 24rpx;
+		color: #666;
+		text-align: right;
 	}
 	.no-data {
 		margin-top: 30rpx;

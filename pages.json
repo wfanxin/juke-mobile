@@ -4,14 +4,14 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "聚客"
+				"navigationBarTitleText": "首页"
 			}
 		},
 		{
 			"path": "pages/index/our",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "我的同修"
+				"navigationBarTitleText": "同修"
 			}
 		},
 		{
@@ -131,6 +131,34 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "国学课堂",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
+		    "path" : "pages/user/leave",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "留言列表",
+		        "enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"color": "#333333",
+							"fontSize": "30rpx",
+							"float": "right",//导航栏的左右位置
+							"type": "none",//按钮类型
+							"text": "添加留言"
+						}]
+					}
+				}
+
+		    }
+		},
+		{
+		    "path" : "pages/user/addleave",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "添加留言",
 		        "enablePullDownRefresh": false
 		    }
 		},

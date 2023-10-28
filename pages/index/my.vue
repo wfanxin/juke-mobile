@@ -40,6 +40,11 @@
 						<text class="item-value">国学课堂</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view>
+					<view class="user-item" @click="$server.enterPage('user/leave')">
+						<text class="leave"></text>
+						<text class="item-value">留言列表</text>
+						<text class="image-arrow-right image-arrow-right-change"></text>
+					</view>
 					<view class="user-item" @click="$server.enterPage('user/personal')">
 						<text class="lock"></text>
 						<text class="item-value">个人信息</text>
@@ -216,6 +221,16 @@
 	    text-indent: -9999px;
 	    display: inline-block;
 	    background: url("/static/gxkt.png") no-repeat;
+	    background-size: 40rpx 40rpx;
+	    position: relative;
+	    top: 30rpx;
+	}
+	.user-item .leave {
+	    width: 40rpx;
+	    height: 40rpx;
+	    text-indent: -9999px;
+	    display: inline-block;
+	    background: url("/static/leave.png") no-repeat;
 	    background-size: 40rpx 40rpx;
 	    position: relative;
 	    top: 30rpx;
