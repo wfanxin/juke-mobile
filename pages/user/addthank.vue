@@ -10,11 +10,11 @@
 				<text class="item-value">{{pmember.mobile}}</text>
 			</view>
 			<view class="view-item">
-				<text class="item-label">升级金额</text>
-				<text class="item-value">￥{{payRecord.money}}</text>
+				<text class="item-label">感恩金额</text>
+				<text class="item-value">￥{{pmember.money}}</text>
 			</view>
 		</view>
-		<view class="selelct-payment-wrap" v-if="payRecord.status === 2">
+		<view class="selelct-payment-wrap">
 			<view class="selelct-payment">收款方式</view>
 			<button v-for="item in paymentList" :key="item.id" :class="{active: pay_method === item.pay_method}" @click="selectPayment(item)">
 				<text v-if="item.pay_method === 1">银行卡</text>
@@ -22,32 +22,22 @@
 				<text v-else-if="item.pay_method === 3">支付宝</text>
 			</button>
 		</view>
-		<view class="show-payment-wrap" v-else>
-			<view class="show-payment">收款方式</view>
-			<text v-if="payRecord.pay_method === 1">银行卡</text>
-			<text v-else-if="payRecord.pay_method === 2">微信</text>
-			<text v-else-if="payRecord.pay_method === 3">支付宝</text>
-		</view>
 		<view class="pay-wrap" v-if="pay_method === 2 || pay_method === 3">
 			<view class="payment-code-wrap">
 				<view class="payment-code">收款码</view>
 				<image :src="payUrl" mode="widthFix"></image>
 			</view>
-			<view class="payment-code-wrap" v-if="payRecord.status === 2">
+			<view class="payment-code-wrap">
 				<view class="payment-code">上传付款凭证</view>
 				<image :src="pay_url" mode="widthFix" @click="chooseImage()" v-if="pay_url !== ''"></image>
 				<view v-else class="no-pay-url" @click="chooseImage()">+</view>
 			</view>
-			<view class="payment-code-wrap" v-else>
-				<view class="payment-code">上传付款凭证</view>
-				<image :src="payRecord.pay_url" mode="widthFix"></image>
-			</view>
-			<view class="code-item" v-if="payRecord.status === 2">
+			<view class="code-item">
 				<text class="item-label">图形验证码</text>
 				<input type="text" v-model="captcha_code" placeholder="请输入图形验证码">
 				<image :src="captcha_code_src" class="code-img" @click="refreshCode()"></image>
 			</view>
-			<button class="submit" @click="submit()" v-if="payRecord.status === 2">提交</button>
+			<button class="submit" @click="submit()">提交</button>
 		</view>
 		<view class="pay-wrap" v-if="pay_method === 1">
 			<view class="code-item">
@@ -70,21 +60,17 @@
 				<text class="item-label">联系方式</text>
 				<view class="input">{{bankData.contact}}</view>
 			</view>
-			<view class="payment-code-wrap" v-if="payRecord.status === 2">
+			<view class="payment-code-wrap">
 				<view class="payment-code">上传付款凭证</view>
 				<image :src="pay_url" mode="widthFix" @click="chooseImage()" v-if="pay_url !== ''"></image>
 				<view v-else class="no-pay-url" @click="chooseImage()">+</view>
 			</view>
-			<view class="payment-code-wrap" v-else>
-				<view class="payment-code">上传付款凭证</view>
-				<image :src="payRecord.pay_url" mode="widthFix"></image>
-			</view>
-			<view class="code-item" v-if="payRecord.status === 2">
+			<view class="code-item">
 				<text class="item-label">图形验证码</text>
 				<input type="text" v-model="captcha_code" placeholder="请输入图形验证码">
 				<image :src="captcha_code_src" class="code-img" @click="refreshCode()"></image>
 			</view>
-			<button class="submit" @click="submit()" v-if="payRecord.status === 2">提交</button>
+			<button class="submit" @click="submit()">提交</button>
 		</view>
 		<view class="panel-wrap">
 			<view class="panel">
@@ -116,32 +102,23 @@
 				pay_url: '',
 				pmember: {},
 				paymentList: [],
-				payRecord: {},
 				payUrl: '',
 				bankData: {}
 			}
 		},
-		onLoad(options) {
+		onLoad() {
 			this.$server.setTitle()
 			this.refreshCode()
-			this.getPayRecord(options.id)
+			this.getThankUpMember()
 		},
 		methods: {
 			refreshCode() {
 			  this.captcha_code_src = this.$server.apiUrl + 'lv/api/captchas/' + Math.random() + '?mobile_device_id=' + this.$server.setDeviceId()
 			},
-			getPayRecord(id) {
-				this.$server.requestGet('up/getPayRecord', {id: id}).then((data) => {
+			getThankUpMember() {
+				this.$server.requestGet('thank/getThankUpMember', {}).then((data) => {
 					this.pmember = data.data.pmember
 					this.paymentList = data.data.paymentList
-					this.payRecord = data.data.payRecord
-					this.pay_method = this.payRecord.pay_method
-					this.payUrl = ''
-					for (let item of this.paymentList) {
-						if (item.pay_method === this.pay_method) {
-							this.selectPayment(item)
-						}
-					}
 				}).catch(() => {
 					
 				})
@@ -210,14 +187,14 @@
 					pay_uid: this.pmember.id,
 					pay_method: this.pay_method,
 					pay_url: this.pay_url,
-					money: this.payRecord.money
+					money: this.pmember.money
 				}
 				
 				this.$server.requestPost('captchas/check', {
 					mobile_device_id: this.$server.setDeviceId(),
 					vcode: this.captcha_code
 				}).then((data) => {
-					this.$server.requestPost('up/levelUp', params).then((data) => {
+					this.$server.requestPost('thank/thankUp', params).then((data) => {
 						uni.showToast({ // 失败
 						    title: '操作成功',
 							image: '/static/show_success.png'
@@ -293,24 +270,6 @@
 	.selelct-payment-wrap button.active {
 		background-color: $juke-main-color;
 		color: #ffffff;
-	}
-	.show-payment-wrap {
-		margin-top: 50rpx;
-	}
-	.show-payment-wrap .show-payment {
-		font-size: 28rpx;
-		padding-left: 40rpx;
-		display: inline-block;
-		margin-right: 40rpx;
-		position: relative;
-		top: -20rpx;
-		font-size: 26rpx;
-	}
-	.show-payment-wrap text {
-		font-size: 28rpx;
-		position: relative;
-		top: -18rpx;
-		left: 30rpx;
 	}
 	.pay-wrap {
 		padding: 0 40rpx;

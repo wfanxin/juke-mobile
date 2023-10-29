@@ -8,7 +8,8 @@
 			<image src="/static/logo.png" v-if="item.user_avatar === ''"></image>
 			<image :src="item.user_avatar" v-else></image>
 			<view class="info">
-				<view class="title">{{item.pay_method_name}}支付升级{{item.up_level_name}}</view>
+				<view class="title" v-if="item.up_level === 0">{{item.pay_method_name}}支付感恩奖</view>
+				<view class="title" v-else>{{item.pay_method_name}}支付升级{{item.up_level_name}}</view>
 				<view class="time">
 					{{ item.created_at }}
 				</view>

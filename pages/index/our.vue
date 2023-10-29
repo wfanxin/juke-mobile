@@ -139,7 +139,7 @@
 	}
 	.our-info-wrap .our-info {
 		background-color: $juke-main-color;
-		height: 350rpx;
+		// height: 350rpx;
 		border-radius: 20rpx;
 		margin: 20rpx;
 		margin-bottom: 30rpx;
@@ -185,6 +185,7 @@
 		color: #d7fff4;
 		line-height: 40rpx;
 		margin-top: 50rpx;
+		padding-bottom: 30rpx;
 	}
 	.out-content .left {
 		flex: 1;

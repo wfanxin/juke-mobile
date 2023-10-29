@@ -127,6 +127,41 @@
 		    }
 		},
 		{
+		    "path" : "pages/user/thank",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "感恩奖提交",
+		        "enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"color": "#333333",
+							"fontSize": "30rpx",
+							"float": "right",//导航栏的左右位置
+							"type": "none",//按钮类型
+							"text": "添加"
+						}]
+					}
+				}
+		    }
+		},
+		{
+		    "path" : "pages/user/addthank",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "添加感恩奖",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
+		    "path" : "pages/user/thankverify",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "感恩奖审核",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
 		    "path" : "pages/user/gxkt",
 		    "style" :                                                                                    
 		    {
@@ -151,7 +186,6 @@
 						}]
 					}
 				}
-
 		    }
 		},
 		{

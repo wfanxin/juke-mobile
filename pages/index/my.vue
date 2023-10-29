@@ -35,6 +35,16 @@
 						<text class="item-value">审核列表</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view>
+					<view class="user-item" @click="$server.enterPage('user/thank')" v-if="userData.level >= 4">
+						<text class="thank"></text>
+						<text class="item-value">感恩奖提交</text>
+						<text class="image-arrow-right image-arrow-right-change"></text>
+					</view>
+					<view class="user-item" @click="$server.enterPage('user/thankverify')" v-if="userData.level >= 4">
+						<text class="thanksh"></text>
+						<text class="item-value">感恩奖审核</text>
+						<text class="image-arrow-right image-arrow-right-change"></text>
+					</view>
 					<view class="user-item" @click="$server.enterPage('user/gxkt?level=' + userData.level)" v-if="userData.level > 0">
 						<text class="gxkt"></text>
 						<text class="item-value">国学课堂</text>
@@ -201,6 +211,26 @@
 	    text-indent: -9999px;
 	    display: inline-block;
 	    background: url("/static/our.png") no-repeat;
+	    background-size: 40rpx 40rpx;
+	    position: relative;
+	    top: 30rpx;
+	}
+	.user-item .thank {
+	    width: 40rpx;
+	    height: 40rpx;
+	    text-indent: -9999px;
+	    display: inline-block;
+	    background: url("/static/thank.png") no-repeat;
+	    background-size: 40rpx 40rpx;
+	    position: relative;
+	    top: 30rpx;
+	}
+	.user-item .thanksh {
+	    width: 40rpx;
+	    height: 40rpx;
+	    text-indent: -9999px;
+	    display: inline-block;
+	    background: url("/static/thanksh.png") no-repeat;
 	    background-size: 40rpx 40rpx;
 	    position: relative;
 	    top: 30rpx;

@@ -1,8 +1,9 @@
 <template>
 	<view class="content">
-		<textarea maxlength="-1" placeholder="请输入留言内容" />
+		<textarea maxlength="-1" placeholder="请输入留言内容" v-model="remark"></textarea>
 		<image :src="image_url" @click="chooseImage()" v-if="image_url !== ''"></image>
 		<view v-else class="no-image-url" @click="chooseImage()">+</view>
+		<button class="submit-btn" @click="addLeave()">提交</button>
 	</view>
 </template>
 
@@ -10,28 +11,17 @@
 	export default {
 		data() {
 			return {
-				level: 0,
-				list: [],
-				image_url: '',
-				loading: false
+				remark: '',
+				image_url: ''
 			}
 		},
 		onLoad(options) {
 			this.$server.setTitle()
 			this.$server.chekLogin((res) => {
-				this.getGrade()
+
 			})
 		},
 		methods: {
-			getGrade() {
-				this.loading = false
-				this.$server.requestGet('config/getGrade', {}).then((data) => {
-					this.list = data.data.list
-					this.loading = true
-				}).catch(() => {
-					this.loading = true
-				})
-			},
 			chooseImage() {
 				uni.chooseImage({
 					count :1,
@@ -45,6 +35,39 @@
 							})
 						})
 					}
+				})
+			},
+			addLeave() {
+				if (this.remark === '') {
+					uni.showToast({
+					   title: '留言内容不能为空',
+					   image: '/static/show_error.png'
+					})
+					return false
+				}
+				
+				if (this.image_url === '') {
+					uni.showToast({
+					   title: '图片不能为空',
+					   image: '/static/show_error.png'
+					})
+					return false
+				}
+				
+				this.$server.requestPost('leave/add', {
+					remark: this.remark,
+					image_url: this.image_url
+				}).then((data) => {
+					uni.showToast({
+					    title: '操作成功',
+						image: '/static/show_success.png'
+					});
+					
+					setTimeout(() => {
+						this.$server.navigateBack(1)
+					}, 1000)
+				}).catch(() => {
+
 				})
 			}
 		}
@@ -66,6 +89,7 @@
 		border-radius: 2rpx;
 		padding: 20rpx;
 		box-sizing: border-box;
+		font-size: 28rpx;
 	}
 	image {
 		width: 30vw;
@@ -81,7 +105,15 @@
 		text-align: center;
 		color: #eee;
 		font-size: 50rpx;
-		margin-top: 20rpx;
+		margin-top: 40rpx;
 		border-radius: 2rpx;
+	}
+	.submit-btn {
+		background-color: $juke-main-color;
+		color: white;
+		height: 80rpx;
+		line-height: 80rpx;
+		font-size: 28rpx;
+		margin-top: 60rpx;
 	}
 </style>
