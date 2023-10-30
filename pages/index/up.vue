@@ -13,7 +13,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="up-wrap" v-if="userData.level < 10 && (payRecordList.length === 0 || payRecordList[0].status === 1)">
+		<view class="up-wrap" v-if="userData.level < 20 && (payRecordList.length === 0 || payRecordList[0].status === 1)">
 			<button class="up-btn" @click="$server.enterPage('up/levelup')">立即升级</button>
 		</view>
 		<view class="panel-wrap" v-if="payRecordList.length > 0">

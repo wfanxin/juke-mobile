@@ -59,18 +59,7 @@
 		data() {
 			return {
 				total_num: 0,
-				level_list: [
-					{level: 1, num: 0},
-					{level: 2, num: 0},
-					{level: 3, num: 0},
-					{level: 4, num: 0},
-					{level: 5, num: 0},
-					{level: 6, num: 0},
-					{level: 7, num: 0},
-					{level: 8, num: 0},
-					{level: 9, num: 0},
-					{level: 10, num: 0}
-				],
+				level_list: [],
 				inviteData: {}
 			}
 		},
