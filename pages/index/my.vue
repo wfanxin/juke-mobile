@@ -45,6 +45,11 @@
 						<text class="item-value">感恩奖审核</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view>
+					<view class="user-item" @click="$server.enterPage('user/package')">
+						<text class="package"></text>
+						<text class="item-value">丢包记录</text>
+						<text class="image-arrow-right image-arrow-right-change"></text>
+					</view>
 					<view class="user-item" @click="$server.enterPage('user/gxkt?level=' + userData.level)" v-if="userData.level > 0">
 						<text class="gxkt"></text>
 						<text class="item-value">国学课堂</text>
@@ -231,6 +236,16 @@
 	    text-indent: -9999px;
 	    display: inline-block;
 	    background: url("/static/thanksh.png") no-repeat;
+	    background-size: 40rpx 40rpx;
+	    position: relative;
+	    top: 30rpx;
+	}
+	.user-item .package {
+	    width: 40rpx;
+	    height: 40rpx;
+	    text-indent: -9999px;
+	    display: inline-block;
+	    background: url("/static/package.png") no-repeat;
 	    background-size: 40rpx 40rpx;
 	    position: relative;
 	    top: 30rpx;

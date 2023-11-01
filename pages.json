@@ -162,6 +162,14 @@
 		    }
 		},
 		{
+		    "path" : "pages/user/package",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "丢包记录",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
 		    "path" : "pages/user/gxkt",
 		    "style" :                                                                                    
 		    {
