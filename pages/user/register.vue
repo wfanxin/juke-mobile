@@ -19,11 +19,12 @@
 					<input type="text" v-model="captcha_code" placeholder="请输入验证码">
 					<image :src="captcha_code_src" class="code-img" @click="refreshCode()"></image>
 				</view>
-				<!-- <view class="register-item">
+				<view class="register-item">
 					<text class="item-label">动态码</text>
 					<input type="text" v-model="mobile_code" placeholder="请输入手机动态码">
-					<view class="mobile-code">点击获取</view>
-				</view> -->
+					<view class="mobile-code" @click="sendMobileMessage" v-if="countdown <= 0">点击获取</view>
+					<view class="mobile-code disable" v-else>重新发送({{countdown}}s)</view>
+				</view>
 				<view class="register-item">
 					<text class="item-label">密码</text>
 					<input type="password" v-model="password" placeholder="请输入密码">
@@ -50,11 +51,13 @@
 				mobile: '',
 				name: '',
 				captcha_code: '',
-				mobile_code: '123456',
+				mobile_code: '',
 				password: '',
 				cfpassword: '',
 				invite_code: '',
-				captcha_code_src: ''
+				captcha_code_src: '',
+				countdown: 0,
+				interval_time: 0
 			}
 		},
 		onLoad(options) {
@@ -67,6 +70,25 @@
 		methods: {
 			refreshCode() {
 			  this.captcha_code_src = this.$server.apiUrl + 'lv/api/captchas/' + Math.random() + '?mobile_device_id=' + this.$server.setDeviceId()
+			},
+			sendMobileMessage() {
+				this.$server.requestGet('service/sendMobileMessage', {
+					mobile: this.mobile
+				}).then((data) => {
+					uni.showToast({
+					   title: '发送成功',
+					   image: '/static/show_success.png'
+					})
+					this.countdown = 60
+					this.interval_time = setInterval(() => {
+						this.countdown--
+						if (this.countdown <= 0) {
+							clearInterval(this.interval_time)
+						}
+					}, 1000)
+				}).catch(() => {
+				
+				})
 			},
 			register() {
 				if (this.mobile === '') {
@@ -217,6 +239,17 @@
 		padding: 0 20rpx;
 		color: #FFC105;
 		border: 1px solid #FFC105;
+		border-radius: 10rpx;
+	}
+	.register-item .mobile-code.disable {
+		position: relative;
+		top: 8rpx;
+		height: 60rpx;
+		line-height: 60rpx;
+		font-size: 24rpx;
+		padding: 0 20rpx;
+		color: lightgray;
+		border: 1px solid #eee;
 		border-radius: 10rpx;
 	}
 	.code-img {

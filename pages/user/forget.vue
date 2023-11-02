@@ -4,11 +4,12 @@
 			<text class="item-label">手机号</text>
 			<input type="text" v-model="mobile" placeholder="请输入手机号">
 		</view>
-		<!-- <view class="forget-item">
+		<view class="forget-item">
 			<text class="item-label">验证码</text>
 			<input type="text" v-model="mobile_code" placeholder="请输入验证码">
-			<view class="mobile-code">获取验证码</view>
-		</view> -->
+			<view class="mobile-code" @click="sendMobileMessage" v-if="countdown <= 0">获取验证码</view>
+			<view class="mobile-code disable" v-else>重新发送({{countdown}}s)</view>
+		</view>
 		<view class="forget-item">
 			<text class="item-label">新密码</text>
 			<input type="password" v-model="password" placeholder="请输入新密码">
@@ -26,15 +27,36 @@
 		data() {
 			return {
 				mobile: '',
-				mobile_code: '123456',
+				mobile_code: '',
 				password: '',
-				cfpassword: ''
+				cfpassword: '',
+				countdown: 0,
+				interval_time: 0
 			}
 		},
 		onLoad() {
 			this.$server.setTitle()
 		},
 		methods: {
+			sendMobileMessage() {
+				this.$server.requestGet('service/sendMobileMessage', {
+					mobile: this.mobile
+				}).then((data) => {
+					uni.showToast({
+					   title: '发送成功',
+					   image: '/static/show_success.png'
+					})
+					this.countdown = 60
+					this.interval_time = setInterval(() => {
+						this.countdown--
+						if (this.countdown <= 0) {
+							clearInterval(this.interval_time)
+						}
+					}, 1000)
+				}).catch(() => {
+				
+				})
+			},
 			forget() {
 				if (this.mobile === '') {
 					uni.showToast({
@@ -124,6 +146,17 @@
 		padding: 0 20rpx;
 		color: $juke-main-dark-color ;
 		border: 1px solid $juke-main-dark-color ;
+		border-radius: 10rpx;
+	}
+	.forget-item .mobile-code.disable {
+		position: relative;
+		top: 8rpx;
+		height: 60rpx;
+		line-height: 60rpx;
+		font-size: 24rpx;
+		padding: 0 20rpx;
+		color: lightgray;
+		border: 1px solid #eee;
 		border-radius: 10rpx;
 	}
 	.forget-btn {
