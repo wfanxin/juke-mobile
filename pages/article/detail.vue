@@ -9,7 +9,6 @@
 	export default {
 		data() {
 			return {
-				article_list: [],
 				article_info: {}
 			}
 		},
@@ -19,13 +18,8 @@
 		},
 		methods: {
 			getList(id) {
-				this.$server.requestGet('index/list', {}).then((res) => {
-					this.article_list = res.data.article_list
-					for (let item of this.article_list) {
-						if (item.id == id) {
-							this.article_info = item
-						}
-					}
+				this.$server.requestGet('index/detail', { id: id}).then((res) => {
+					this.article_info = res.data.data
 				})
 			}
 		}
