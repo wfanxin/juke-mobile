@@ -2,7 +2,7 @@
 	<view class="content">
 		<image class="logo" src="/static/logo.png"></image>
 		<view class="title-wrap">
-			<view class="title">聚客登录</view>
+			<view class="title">{{title}}登录</view>
 		</view>
 		<view class="login-panel">
 			<view class="panel">
@@ -31,6 +31,7 @@
 	export default {
 		data() {
 			return {
+				title: '',
 				mobile: '',
 				password: '',
 				captcha_code: '',
@@ -40,10 +41,19 @@
 		onLoad() {
 			this.$server.setTitle()
 			this.refreshCode()
+			this.getSite()
 		},
 		methods: {
 			refreshCode() {
 			  this.captcha_code_src = this.$server.apiUrl + 'lv/api/captchas/' + Math.random() + '?mobile_device_id=' + this.$server.setDeviceId()
+			},
+			getSite() {
+				this.title = uni.getStorageSync('mSite')
+				this.$server.requestGet('config/getSite', {}).then((data) => {
+					this.title = data.data.data
+				}).catch(() => {
+			
+				})
 			},
 			login() {
 				if (this.mobile === '') {

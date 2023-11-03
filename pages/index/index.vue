@@ -48,6 +48,7 @@
 		},
 		methods: {
 			getSite() {
+				this.title = uni.getStorageSync('mSite')
 				this.$server.requestGet('config/getSite', {}).then((data) => {
 					this.title = data.data.data
 				}).catch(() => {
