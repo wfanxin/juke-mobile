@@ -10,7 +10,7 @@
 					<view class="item-content">
 						<view class="item-header">
 							<text class="item-time">注册时间：{{item.created_at}}</text>
-							<text class="status success"></text>
+							<text class="status">{{item.level_name}}</text>
 						</view>
 					</view>
 					<view class="item-wrap">
@@ -18,12 +18,12 @@
 						<image :src="item.avatar" v-else></image>
 						<view class="item-info">
 							<view class="name">{{item.name}}</view>
-							<view class="money"></view>
+							<view class="money">收益：{{item.money}}</view>
 						</view>
 					</view>
 					<view class="item-footer">
-						邀请人：{{item.invite_name}}
-						<!-- <text></text> -->
+						手机号：{{item.mobile}}
+						<text>邀请人：{{item.invite_name}}</text>
 					</view>
 				</view>
 			</view>
