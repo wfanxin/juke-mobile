@@ -11,7 +11,7 @@
 					</view>
 				</view>
 				<view class="out-content">
-					<view class="left">
+					<!-- <view class="left">
 						<view>左区人数<text>0</text></view>
 						<view>尚未激活人数<text>0</text></view>
 						<view>累计激活<text>0</text></view>
@@ -20,6 +20,10 @@
 						<view>右区人数<text>0</text></view>
 						<view>结构完整人数<text>0</text></view>
 						<view>今日激活<text>0</text></view>
+					</view> -->
+					<view class="left">
+						<view>累计激活<text>{{active_num}}</text></view>
+						<view>今日激活<text>{{today_active_num}}</text></view>
 					</view>
 				</view>
 			</view>
@@ -59,6 +63,8 @@
 		data() {
 			return {
 				total_num: 0,
+				active_num: 0,
+				today_active_num: 0,
 				level_list: [],
 				inviteData: {}
 			}
@@ -74,6 +80,8 @@
 				this.$server.requestGet('our/getOurLevelNum', {}).then((data) => {
 					this.level_list = data.data.data
 					this.total_num = data.data.total_num
+					this.active_num = data.data.active_num
+					this.today_active_num = data.data.today_active_num
 				}).catch(() => {
 					
 				})
