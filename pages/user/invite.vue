@@ -1,10 +1,11 @@
 <template>
 	<view class="content">
-		<canvas id="qrcode" canvas-id="qrcode" style="width: 50vw; height: 50vw; margin-top: 20vw;"></canvas>
-		<view class="info-title">
+		<canvas id="qrcode" canvas-id="qrcode" style="width: 200px; height: 200px; margin-top: 30vw; z-index: 10;"></canvas>
+		<view class="info-title" style="z-index: 10;">
 			邀请好友
 		</view>
-		<view class="info">
+		<div style="position: absolute; width: 230px; height: 250px; background-color: #ffffff; margin-top: 30vw;"></div>
+		<!-- <view class="info">
 			邀请好友扫描二维码或复制链接
 		</view>
 		<view class="info-url">
@@ -12,7 +13,7 @@
 		</view>
 		<view class="copy" @click="copy">
 			复制链接
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -82,6 +83,10 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		background-image: url(/static/invite.png);
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		height: calc(100vh - 92rpx);
 	}
 	.info-title {
 		font-size: 30rpx;
