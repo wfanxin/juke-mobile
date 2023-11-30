@@ -22,6 +22,7 @@
 						<view>今日激活<text>0</text></view>
 					</view> -->
 					<view class="left">
+						<view>直推人数<text>{{invite_num}}</text></view>
 						<view>累计激活<text>{{active_num}}</text></view>
 						<view>今日激活<text>{{today_active_num}}</text></view>
 					</view>
@@ -65,6 +66,7 @@
 				total_num: 0,
 				active_num: 0,
 				today_active_num: 0,
+				invite_num: 0,
 				level_list: [],
 				inviteData: {}
 			}
@@ -82,6 +84,7 @@
 					this.total_num = data.data.total_num
 					this.active_num = data.data.active_num
 					this.today_active_num = data.data.today_active_num
+					this.invite_num = data.data.invite_num
 				}).catch(() => {
 					
 				})

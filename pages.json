@@ -119,6 +119,14 @@
 		    }
 		},
 		{
+		    "path" : "pages/user/inviteuser",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "直推列表",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
 		    "path" : "pages/user/apply",
 		    "style" :                                                                                    
 		    {

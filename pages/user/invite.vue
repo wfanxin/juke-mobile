@@ -72,7 +72,7 @@
 					this.base64 = canvas.toDataURL('image/png')
 					setTimeout(() => {
 						this.isShow = true
-					}, 1000)
+					}, 500)
 				});
 			},
 			saveImg() {
