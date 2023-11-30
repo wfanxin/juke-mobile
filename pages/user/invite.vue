@@ -1,6 +1,7 @@
 <template>
-	<view class="content" @longtap="saveImg">
-		<view class="myCanvas">
+	<view class="content">
+		<image v-if="base64 !== ''" :src="base64" style="width: 100vw; height: calc(100vh - 92rpx); position: absolute;"></image>
+		<view v-else class="myCanvas">
 			<div style="position: absolute; width: 230px; height: 250px; background-color: #ffffff; margin-top: 30vw;">
 				<view class="info-title" style="position: absolute; bottom: 10px; text-align: center; width: 230px;">
 					邀请好友
@@ -71,7 +72,7 @@
 				});
 			},
 			saveImg() {
-				var oA = document.createElement('a');
+				const oA = document.createElement('a');
 				oA.download = '邀请好友'; // 设置下载的文件名，默认是'下载'
 				oA.href = this.base64;
 				document.body.appendChild(oA);
