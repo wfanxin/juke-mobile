@@ -1,10 +1,14 @@
 <template>
-	<view class="content">
-		<canvas id="qrcode" canvas-id="qrcode" style="width: 200px; height: 200px; margin-top: 30vw; z-index: 10;"></canvas>
-		<view class="info-title" style="z-index: 10;">
-			邀请好友
+	<view class="content" @longtap="saveImg">
+		<view class="myCanvas">
+			<div style="position: absolute; width: 230px; height: 250px; background-color: #ffffff; margin-top: 30vw;">
+				<view class="info-title" style="position: absolute; bottom: 10px; text-align: center; width: 230px;">
+					邀请好友
+				</view>
+			</div>
+			<canvas id="qrcode" canvas-id="qrcode" style="width: 200px; height: 200px; margin-top: 25vw; z-index: 10;"></canvas>
 		</view>
-		<div style="position: absolute; width: 230px; height: 250px; background-color: #ffffff; margin-top: 30vw;"></div>
+		
 		<!-- <view class="info">
 			邀请好友扫描二维码或复制链接
 		</view>
@@ -19,11 +23,13 @@
 
 <script>
 	import UQRCode from 'uqrcodejs'
+	import html2canvas from 'html2canvas'
 	export default {
 		data() {
 			return {
 				userData: {},
-				inviteUrl: ''
+				inviteUrl: '',
+				base64: ''
 			}
 		},
 		onLoad() {
@@ -60,6 +66,17 @@
 				qr.canvasContext = canvasContext;
 				// 调用绘制方法将二维码图案绘制到canvas上
 				qr.drawCanvas();
+				html2canvas(document.querySelector('.myCanvas')).then((canvas) => {
+					this.base64 = canvas.toDataURL('image/png')
+				});
+			},
+			saveImg() {
+				var oA = document.createElement('a');
+				oA.download = '邀请好友'; // 设置下载的文件名，默认是'下载'
+				oA.href = this.base64;
+				document.body.appendChild(oA);
+				oA.click();
+				oA.remove(); // 下载之后把创建的元素删除
 			},
 			copy() {
 				uni.setClipboardData({
@@ -79,6 +96,8 @@
 <style lang="scss">
 	.content {
 		border-top: 2px solid #F2F6FC;
+	}
+	.myCanvas {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
