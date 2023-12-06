@@ -213,6 +213,14 @@
 		    }
 		},
 		{
+		    "path" : "pages/user/tree",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "树形结构",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
 		    "path" : "pages/article/detail",
 		    "style" :                                                                                    
 		    {
