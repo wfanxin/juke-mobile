@@ -30,6 +30,11 @@
 						<text class="item-value">邀请好友</text>
 						<text class="image-arrow-right image-arrow-right-change"></text>
 					</view>
+					<view class="user-item" @click="$server.enterPage('user/tree')" v-if="userData.level >= 4">
+						<text class="tree"></text>
+						<text class="item-value">树形结构</text>
+						<text class="image-arrow-right image-arrow-right-change"></text>
+					</view>
 					<view class="user-item" @click="$server.enterPage('user/inviteuser')" v-if="userData.level >= 4">
 						<text class="inviteuser"></text>
 						<text class="item-value">直推列表</text>
@@ -211,6 +216,16 @@
 	    text-indent: -9999px;
 	    display: inline-block;
 	    background: url("/static/friend.png") no-repeat;
+	    background-size: 40rpx 40rpx;
+	    position: relative;
+	    top: 30rpx;
+	}
+	.user-item .tree {
+	    width: 40rpx;
+	    height: 40rpx;
+	    text-indent: -9999px;
+	    display: inline-block;
+	    background: url("/static/tree.png") no-repeat;
 	    background-size: 40rpx 40rpx;
 	    position: relative;
 	    top: 30rpx;
