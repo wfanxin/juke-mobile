@@ -1,0 +1,288 @@
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+<body style="overflow: auto;">
+	<div id="main" style="width: auto; height: 800px;"></div>
+</body>
+
+<script type="text/javascript">
+var chartDom = document.getElementById('main');
+var myChart = echarts.init(chartDom);
+var option;
+
+
+option = {
+  // https://echarts.apache.org/zh/option.html#series-tree.width
+  //tooltip: { trigger: 'item', triggerOn: 'mousemove' },
+  series: [
+    {
+      type: 'tree',
+      left: 0,
+      right: 0,
+      // 开启缩放和平移
+      roam: false,
+      // 树图布局
+      layout: 'orthogonal',
+      // 从右到左 LR, RL, TB, BT
+      orient: 'TB',
+      // 定义图片
+      symbol: 'circle',
+      symbolSize: 100,
+      // symbolOffset: [0,-30],
+      // 展开的节点 -1，null 或者 undefined 表示所有节点都展开
+      initialTreeDepth: -1,
+      // 开启折叠节点
+      expandAndCollapse: true,
+      label: {
+        show: true,
+        offset: [0, 0],
+        align: 'center',
+		color: '#FFFFFF',
+		lineHeight: 15,
+		fontSize: 12,
+        formatter: (params) => {
+          return params.name.replaceAll('/r/n', '\n');
+        }
+      },
+      lineStyle: {
+        // 连接线的弧度
+        curveness: 0,
+        // 线的粗细
+		height: 1,
+        // 虚线
+        type: 'solid'
+      },
+      tooltip: {
+        formatter: (params) => {
+          return params.value.replaceAll('/r/n', '<br/>');
+        }
+      },
+	  itemStyle: { color: '#000000' },
+      data: [
+        {
+          name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+          value: '角色',
+          label: { offset: [0, 0]},
+		  itemStyle: { color: '#FF0000' },
+          children: [
+            {
+              name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+              value: '角色',
+              label: { offset: [0, 0] },
+              children: [
+                {
+                  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+                  value: '角色',
+                  label: { offset: [0, 0] },
+				  children: [
+					{
+					  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+					  value: '角色',
+					  label: { offset: [0, 0] },
+					  itemStyle: { color: '#FF0000' },
+					  children: [
+						{
+						  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+						  value: '角色',
+						  label: { offset: [0, 0] },
+						  children: [
+							{
+							  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+							  value: '角色',
+							  label: { offset: [0, 0] },
+							  children: [
+								{
+								  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+								  value: '角色',
+								  label: { offset: [0, 0] },
+								},
+								{
+								  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+								  value: '角色',
+								  label: { offset: [0, 0] },
+								}
+							  ]
+							},
+							{
+							  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+							  value: '角色',
+							  label: { offset: [0, 0] },
+							  children: [
+								{
+								  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+								  value: '角色',
+								  label: { offset: [0, 0] },
+								}
+							  ]
+							}
+						  ]
+						},
+						{
+						  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+						  value: '角色',
+						  label: { offset: [0, 0] },
+						  children: [
+							{
+							  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+							  value: '角色',
+							  label: { offset: [0, 0] },
+							},
+							{
+							  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+							  value: '角色',
+							  label: { offset: [0, 0] },
+							}
+						  ]
+						}
+					  ]
+					},
+					{
+					  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+					  value: '角色',
+					  label: { offset: [0, 0] },
+					  itemStyle: { color: '#FF0000' },
+					  children: [
+						{
+						  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+						  value: '角色',
+						  label: { offset: [0, 0] },
+						},
+						{
+						  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+						  value: '角色',
+						  label: { offset: [0, 0] },
+						}
+					  ]
+					}
+				  ]
+                },
+                {
+                  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+                  value: '角色',
+                  label: { offset: [0, 0] },
+				  children: [
+					{
+					  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+					  value: '角色',
+					  label: { offset: [0, 0] },
+					  children: [
+						{
+						  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+						  value: '角色',
+						  label: { offset: [0, 0] },
+						},
+						{
+						  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+						  value: '角色',
+						  label: { offset: [0, 0] },
+						}
+					  ]
+					},
+					{
+					  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+					  value: '角色',
+					  label: { offset: [0, 0] },
+					  itemStyle: { color: '#FF0000' },
+					  children: [
+						{
+						  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+						  value: '角色',
+						  label: { offset: [0, 0] },
+						  children: [
+							{
+							  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+							  value: '角色',
+							  label: { offset: [0, 0] },
+							  children: [
+								{
+								  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+								  value: '角色',
+								  label: { offset: [0, 0] },
+								},
+								{
+								  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+								  value: '角色',
+								  label: { offset: [0, 0] },
+								}
+							  ]
+							},
+							{
+							  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+							  value: '角色',
+							  label: { offset: [0, 0] },
+							}
+						  ]
+						},
+						{
+						  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+						  value: '角色',
+						  label: { offset: [0, 0] },
+						  children: [
+							{
+							  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+							  value: '角色',
+							  label: { offset: [0, 0] },
+							},
+							{
+							  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+							  value: '角色',
+							  label: { offset: [0, 0] },
+							}
+						  ]
+						}
+					  ]
+					}
+				  ]
+                }
+              ]
+            },
+			{
+              name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+              value: '角色',
+              label: { offset: [0, 0] },
+              children: [
+                {
+                  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+                  value: '角色',
+                  label: { offset: [0, 0] },
+				  children: [
+					{
+					  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+					  value: '角色',
+					  label: { offset: [0, 0] },
+					},
+					{
+					  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+					  value: '角色',
+					  label: { offset: [0, 0] },
+					}
+				  ]
+                },
+                {
+                  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+                  value: '角色',
+                  label: { offset: [0, 0] },
+				  children: [
+					{
+					  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+					  value: '角色',
+					  label: { offset: [0, 0] },
+					},
+					{
+					  name: '张某某/r/n13800000000/r/n直推人数:3000/r/n收益:3000/r/n等级:悟',
+					  value: '角色',
+					  label: { offset: [0, 0] },
+					}
+				  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+option && myChart.setOption(option);
+</script>
+</html>
