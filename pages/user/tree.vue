@@ -29,7 +29,7 @@
 							// 展开的节点 -1，null 或者 undefined 表示所有节点都展开
 							initialTreeDepth: -1,
 							// 开启折叠节点
-							expandAndCollapse: true,
+							expandAndCollapse: false,
 							label: {
 								show: true,
 								offset: [0, 0],
@@ -53,8 +53,7 @@
 							data: []
 						}
 					]
-				},
-				data: []
+				}
 			}
 		},
 		onLoad() {
@@ -82,6 +81,9 @@
 				// 获取dom
 				const canvas = this.$refs.chart.$el
 				if (this.option.series[0].data[0]) {
+					if (this.option.series[0].data[0].deep <= 3) {
+						this.option.series[0].data[0].deep += 1.2
+					}
 					canvas.style.width = 140 * this.option.series[0].data[0].widthNum + 'px'
 					canvas.style.height = 120 * this.option.series[0].data[0].deep + 'px'
 				} else {
